@@ -1,10 +1,11 @@
 package oop;
 
 import java.util.Scanner;
+
 public class StatisticalInformation {
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in); 
+        Scanner input = new Scanner(System.in);
         boolean running = true;
 
         while (running) {
@@ -16,10 +17,10 @@ public class StatisticalInformation {
 
             switch (choice.toUpperCase()) {
                 case "A":
-                    displayStatistics(input);
+                    displayStatistics(input); 
                     break;
                 case "E":
-                    running = false;
+                    running = false; 
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -29,45 +30,59 @@ public class StatisticalInformation {
     }
 
     public static void displayStatistics(Scanner input) {
-        clearConsole(); // Clear the console
-        System.out.println("Statistical Information"); 
+        clearConsole(); 
+        System.out.println("Statistical Information");
 
         try {
             System.out.print("Enter the array size: ");
             int size = input.nextInt();
-            double[] numbers = new double[size]; 
+            double[] numbers = new double[size];
 
             System.out.println("Enter the array elements:");
-            for (int i = 0; i < size; i++) { // Loop through based on the array size
+            for (int i = 0; i < size; i++) {
                 numbers[i] = input.nextDouble();
             }
 
-            // Statistical calculations
+           
             double mean = calculateMean(numbers);
             double median = calculateMedian(numbers);
             double geometricMean = calculateGeometricMean(numbers);
             double harmonicMean = calculateHarmonicMean(numbers, size);
 
-            // Print the results
+            // Sonuçların gösterilmesi
             System.out.printf("Arithmetic Mean: %.2f%n", mean);
             System.out.printf("Median: %.2f%n", median);
             System.out.printf("Geometric Mean: %.2f%n", geometricMean);
             System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
 
+            
+            System.out.print("Do you want to continue? (E for Yes / H for Main Menu): ");
+            input.nextLine(); 
+            String continueChoice = input.nextLine();
+
+           
+            if (continueChoice.equalsIgnoreCase("E")) {
+                // "E" seçeneği ile devam ederse ana menüye döner.
+                System.out.println("Returning to the Main Menu...");
+            } else if (continueChoice.equalsIgnoreCase("H")) {
+                System.out.println("Returning to the Main Menu..."); 
+            } else {
+                System.out.println("Invalid input. Returning to the Main Menu...");
+            }
+
         } catch (Exception e) {
             System.out.println("Invalid input. Please try again.");
-            input.next(); // Clear the invalid input
+            input.next(); 
         } finally {
-            input.nextLine(); // Clear the remaining new line for the next input
+            input.nextLine(); 
         }
     }
 
     private static void clearConsole() {
-        // Code to clear the console
+       
         try {
-            System.out.print("\033[H\033[2J"); // Clear the console
-            System.out.flush(); // Refresh the console
-            Thread.sleep(50); // Pause briefly to ensure the console is fully cleared
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
         } catch (Exception e) {
             System.out.println("An error occurred while clearing the console: " + e.getMessage());
         }
@@ -82,11 +97,11 @@ public class StatisticalInformation {
     }
 
     public static double calculateMedian(double[] numbers) {
-        java.util.Arrays.sort(numbers); // Sort the array
+        java.util.Arrays.sort(numbers); 
         int middle = numbers.length / 2;
-        if (numbers.length % 2 == 0) { // If the number of elements is even
+        if (numbers.length % 2 == 0) { 
             return (numbers[middle - 1] + numbers[middle]) / 2.0;
-        } else { // If odd
+        } else { 
             return numbers[middle];
         }
     }
@@ -101,7 +116,7 @@ public class StatisticalInformation {
 
     public static double calculateHarmonicMean(double[] numbers, int size) {
         double sumOfInverses = harmonicMeanRecursive(numbers, size, 0);
-        return size / sumOfInverses; // Calculate harmonic mean
+        return size / sumOfInverses;
     }
 
     private static double harmonicMeanRecursive(double[] numbers, int size, int index) {
@@ -111,3 +126,4 @@ public class StatisticalInformation {
         return 1.0 / numbers[index] + harmonicMeanRecursive(numbers, size, index + 1);
     }
 }
+
