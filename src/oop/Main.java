@@ -113,7 +113,7 @@ public class Main {
             System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
 
             
-            System.out.print("Do you want to continue? (M for Main Menu / E for Exit): ");
+            System.out.print("Do you want to continue? (M for Main Menu / E for Terminate): ");
             input.nextLine(); // Boş satırı temizlemek için
             String continueChoice = input.nextLine();
 
