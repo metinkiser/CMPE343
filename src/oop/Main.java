@@ -89,13 +89,27 @@ public class Main {
 
             double mean = calculateMean(numbers);
             double median = calculateMedian(numbers);
-            double geometricMean = calculateGeometricMean(numbers);
+
+            boolean hasZero = false;
+            for (double num : numbers) {
+                if (num == 0) {
+                    hasZero = true;
+                    break;
+                }
+            }
+
+            if (hasZero) {
+                System.out.println("Geometric Mean is not valid for arrays containing zero.");
+            } else {
+                double geometricMean = calculateGeometricMean(numbers);
+                System.out.printf("Geometric Mean: %.2f%n", geometricMean);
+            }
+
             double harmonicMean = calculateHarmonicMean(numbers, size);
 
             // Sonuçların gösterilmesi
             System.out.printf("Arithmetic Mean: %.2f%n", mean);
             System.out.printf("Median: %.2f%n", median);
-            System.out.printf("Geometric Mean: %.2f%n", geometricMean);
             System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
 
             System.out.print("Do you want to continue? (E for Yes / H for Main Menu): ");
@@ -103,7 +117,6 @@ public class Main {
             String continueChoice = input.nextLine();
 
             if (continueChoice.equalsIgnoreCase("E")) {
-                // "E" seçeneği ile devam ederse ana menüye döner.
                 System.out.println("Returning to the Main Menu...");
             } else if (continueChoice.equalsIgnoreCase("H")) {
                 System.out.println("Returning to the Main Menu...");
@@ -165,7 +178,6 @@ public class Main {
         }
         return 1.0 / numbers[index] + harmonicMeanRecursive(numbers, size, index + 1);
     }
-
     
     //MatrixOperations
     public static void runMatrixOperations(Scanner input) {
