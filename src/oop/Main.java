@@ -113,7 +113,7 @@ public class Main {
             System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
 
             
-            System.out.print("Do you want to continue? (M for Main Menu / E for Terminate): ");
+            System.out.print("Do you want to continue? (M for Main Menu / E for Exit): ");
             input.nextLine(); // Boş satırı temizlemek için
             String continueChoice = input.nextLine();
 
@@ -451,24 +451,29 @@ public class Main {
     //Tic-Tac-Toe
     public static void runTicTacToe(Scanner input) {
         char[][] board = {
-            {' ', ' ', ' '},
-            {' ', ' ', ' '},
-            {' ', ' ', ' '}
+            {'1', '2', '3'},
+            {'4', '5', '6'},
+            {'7', '8', '9'}
         };
         char currentPlayer = 'X';
         boolean gameWon = false;
 
         while (!gameWon && !isBoardFull(board)) {
             printBoard(board);
-            System.out.print("Player " + currentPlayer + ", enter your move (row and column): ");
-            int row = input.nextInt();
-            int col = input.nextInt();
+            System.out.print("Player " + currentPlayer + ", enter your move (1-9): ");
+            int move = input.nextInt();
 
-            if (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') {
+            // Kullanıcının girdiği hareketi tabloya dönüştür
+            int row = (move - 1) / 3;
+            int col = (move - 1) % 3;
+
+            // Geçersiz hareket kontrolü
+            if (move < 1 || move > 9 || (board[row][col] == 'X' || board[row][col] == 'O')) {
                 System.out.println("This move is not valid. Try again.");
                 continue;
             }
 
+            // Hamleyi tabloya ekle
             board[row][col] = currentPlayer;
             gameWon = checkWin(board, currentPlayer);
 
@@ -512,11 +517,13 @@ public class Main {
     private static boolean isBoardFull(char[][] board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == ' ') {
+                if (board[i][j] != 'X' && board[i][j] != 'O') {
                     return false; // Found an empty space
                 }
             }
         }
         return true; // No empty spaces
     }
-}
+
+    }
+
