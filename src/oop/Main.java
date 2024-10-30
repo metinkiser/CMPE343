@@ -112,13 +112,16 @@ public class Main {
             System.out.printf("Median: %.2f%n", median);
             System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
 
-            System.out.print("Do you want to continue? (E for Yes / H for Main Menu): ");
+            
+            System.out.print("Do you want to continue? (M for Main Menu / E for Exit): ");
             input.nextLine(); // Boş satırı temizlemek için
             String continueChoice = input.nextLine();
 
             if (continueChoice.equalsIgnoreCase("E")) {
-                System.out.println("Returning to the Main Menu...");
-            } else if (continueChoice.equalsIgnoreCase("H")) {
+                System.out.println("Exiting the program...");
+                input.close(); // Scanner'ı kapat
+                System.exit(0); // Programı tamamen kapatır
+            } else if (continueChoice.equalsIgnoreCase("M")) {
                 System.out.println("Returning to the Main Menu...");
             } else {
                 System.out.println("Invalid input. Returning to the Main Menu...");
@@ -435,11 +438,14 @@ public class Main {
             } else {
                 result.append(character);
             }
+            
         }
         return result.toString();
+        
     
        
     }
+    
     
     
     //Tic-Tac-Toe
