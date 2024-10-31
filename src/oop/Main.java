@@ -87,77 +87,66 @@ public class Main {
             }
         }
   //Statistical Information
-    public static void displayStatistics(Scanner input) {
-        clearConsole();
-        System.out.println("Statistical Information");
+      public static void displayStatistics(Scanner input) {
+            clearConsole();
+            System.out.println("Statistical Information");
 
-        try {
-            System.out.print("Enter the array size: ");
-            int size = input.nextInt();
-            double[] numbers = new double[size];
+            while (true) {
+                try {
+                    System.out.print("Enter the array size: ");
+                    int size = input.nextInt();
+                    double[] numbers = new double[size];
 
-            System.out.println("Enter the array elements:");
-            for (int i = 0; i < size; i++) {
-                numbers[i] = input.nextDouble();
-            }
+                    System.out.println("Enter the array elements:");
+                    for (int i = 0; i < size; i++) {
+                        numbers[i] = input.nextDouble();
+                    }
 
-            double mean = calculateMean(numbers);
-            double median = calculateMedian(numbers);
+                    double mean = calculateMean(numbers);
+                    double median = calculateMedian(numbers);
 
-            boolean hasZeroOrNegative = false;
-            boolean hasNegative = false;
-            for (double num : numbers) {
-                if (num <= 0) {
-                    hasZeroOrNegative = true;
+                    boolean hasZeroOrNegative = false;
+                    boolean hasNegative = false;
+                    for (double num : numbers) {
+                        if (num <= 0) {
+                            hasZeroOrNegative = true;
+                        }
+                        if (num < 0) {
+                            hasNegative = true;
+                        }
+                        if (hasZeroOrNegative) {
+                            break;
+                        }
+                    }
+
+                    if (hasZeroOrNegative) {
+                        System.out.println("Harmonic Mean cannot be calculated for arrays containing zero or negative values.");
+                    } else {
+                        double harmonicMean = calculateHarmonicMean(numbers, size);
+                        System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
+                    }
+
+                    if (hasZeroOrNegative || hasNegative) {
+                        System.out.println("Geometric Mean cannot be calculated for arrays containing zero or negative values.");
+                    } else {
+                        double geometricMean = calculateGeometricMean(numbers);
+                        System.out.printf("Geometric Mean: %.2f%n", geometricMean);
+                    }
+
+                    // Sonuçların gösterilmesi
+                    System.out.printf("Arithmetic Mean: %.2f%n", mean);
+                    System.out.printf("Median: %.2f%n", median);
+                    break; // İşlemler tamamlandığında döngüden çık
+
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please try again."); // Hatalı giriş uyarısı
+                    input.nextLine(); // Hatalı girişi temizle
                 }
-                if (num < 0) {
-                    hasNegative = true;
-                }
-                if (hasZeroOrNegative) {
-                    break;
-                }
             }
 
-            if (hasZeroOrNegative) {
-                System.out.println("Harmonic Mean cannot be calculated for arrays containing zero or negative values.");
-            } else {
-                double harmonicMean = calculateHarmonicMean(numbers, size);
-                System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
-            }
-
-            if (hasZeroOrNegative || hasNegative) {
-                System.out.println("Geometric Mean cannot be calculated for arrays containing zero or negative values.");
-            } else {
-                double geometricMean = calculateGeometricMean(numbers);
-                System.out.printf("Geometric Mean: %.2f%n", geometricMean);
-            }
-
-            // Sonuçların gösterilmesi
-            System.out.printf("Arithmetic Mean: %.2f%n", mean);
-            System.out.printf("Median: %.2f%n", median);
-
-            System.out.print("Do you want to continue? (M for Main Menu / C for Continue to Statistical Calculations): ");
-            input.nextLine(); // Boş satırı temizlemek için
-            String continueChoice = input.nextLine();
-
-            if (continueChoice.equalsIgnoreCase("M")) {
-                System.out.println("Returning to the Main Menu...");
-            } else if (continueChoice.equalsIgnoreCase("C")) {
-                System.out.println("Continuing to Statistical Calculations...");
-                displayStatistics(input); // İstatistik hesaplamalarına devam et
-            } else {
-                System.out.println("Invalid input. Returning to the Main Menu...");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Invalid input. Please try again.");
-            input.next(); // Hatalı girişi temizle
-        } finally {
-            input.nextLine(); // Scanner'ı temizle
+            System.out.println("Press Enter to return to Main Menu...");
+            input.nextLine(); // Kullanıcıdan Enter tuşuna basmasını bekle
         }
-    }
-
-
 
     public static double calculateMean(double[] numbers) {
         double sum = 0;
@@ -195,7 +184,9 @@ public class Main {
             return 0;
         }
         return 1.0 / numbers[index] + harmonicMeanRecursive(numbers, size, index + 1);
+        
     }
+    
 
     
     //MatrixOperations
