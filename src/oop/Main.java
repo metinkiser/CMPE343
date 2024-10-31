@@ -40,7 +40,7 @@ public class Main {
             boolean running = true;
 
             while (running) {
-                clearConsole(); // Konsolu temizle
+                clearConsole(); 
                 System.out.println("\nMain Menu");
                 System.out.println("[A] Statistical Information");
                 System.out.println("[B] Matrix Operations");
@@ -133,19 +133,19 @@ public class Main {
                         System.out.printf("Geometric Mean: %.2f%n", geometricMean);
                     }
 
-                    // Sonuçların gösterilmesi
+                    // displaying results
                     System.out.printf("Arithmetic Mean: %.2f%n", mean);
                     System.out.printf("Median: %.2f%n", median);
-                    break; // İşlemler tamamlandığında döngüden çık
+                    break; // Exit the loop when operations are completed
 
                 } catch (Exception e) {
-                    System.out.println("Invalid input. Please try again."); // Hatalı giriş uyarısı
-                    input.nextLine(); // Hatalı girişi temizle
+                    System.out.println("Invalid input. Please try again."); // Incorrect input warning
+                    input.nextLine(); // Clear the bad input
                 }
             }
 
             System.out.println("Press Enter to return to Main Menu...");
-            input.nextLine(); // Kullanıcıdan Enter tuşuna basmasını bekle
+            input.nextLine(); // Wait for the user to press Enter
         }
 
     public static double calculateMean(double[] numbers) {
@@ -198,9 +198,9 @@ public class Main {
         double[][] result = null;
 
         do {
-            displayMenu(); // Matris işlemleri menüsünü göster
-            choice = input.nextInt(); // Kullanıcıdan seçim al
-            input.nextLine(); // Boş satırı temizlemek için
+            displayMenu(); // Show matrix operations menu
+            choice = input.nextInt(); // Get selection from user
+            input.nextLine(); // To clear the blank line
 
             switch (choice) {
                 case 1:
@@ -237,12 +237,12 @@ public class Main {
 
                 case 5:
                     System.out.println("Returning to main menu...");
-                    return; // Ana menüye dönüş
+                    return; // Return to main menu
                 default:
                     System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             }
 
-            // İşlem tamamlandıktan sonra kullanıcıya ana menüye dönme veya devam etme seçeneği sunuluyor
+           // After the process is completed, the user is given the option to return to the main menu or continue
             System.out.print("\nDo you want to return to the main menu? (yes/no): ");
             String decision = input.nextLine().trim().toLowerCase();
             if (decision.equals("yes")) {
@@ -341,7 +341,7 @@ public class Main {
             }
         }
 
-        // Uygulanan Gauss-Jordan Eliminasyonu
+        // Applied Gauss-Jordan Elimination
         for (int i = 0; i < n; i++) {
             double pivot = augmentedMatrix[i][i];
             if (pivot == 0) {
@@ -363,7 +363,7 @@ public class Main {
             }
         }
 
-        // İkinci yarıda tersini almak
+        // Take the opposite in the second half
         double[][] inverseMatrix = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -492,17 +492,17 @@ public class Main {
             System.out.print("Player " + currentPlayer + ", enter your move (1-9): ");
             int move = input.nextInt();
 
-            // Kullanıcının girdiği hareketi tabloya dönüştür
+            // Convert the user entered action into a table
             int row = (move - 1) / 3;
             int col = (move - 1) % 3;
 
-            // Geçersiz hareket kontrolü
+            // Invalid movement control
             if (move < 1 || move > 9 || (board[row][col] == 'X' || board[row][col] == 'O')) {
                 System.out.println("This move is not valid. Try again.");
                 continue;
             }
 
-            // Hamleyi tabloya ekle
+            // Add the move to the table
             board[row][col] = currentPlayer;
             gameWon = checkWin(board, currentPlayer);
 
