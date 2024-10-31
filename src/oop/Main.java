@@ -3,6 +3,12 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 public class Main {
+	
+	/**
+	 * Main method to start the program and display the main menu.
+	 *
+	 * @param args command-line arguments
+	 */
     public static void main(String[] args) {
     	
         // ASCII sanatı çıktısı
@@ -79,6 +85,9 @@ public class Main {
             }
         }
 
+    /**
+     * Clears the console screen.
+     */
         private static void clearConsole() {
             try {
                 System.out.print("\033[H\033[2J");
@@ -88,6 +97,13 @@ public class Main {
             }
         }
   //Statistical Information
+        
+        
+        /**
+         * Displays statistical information (mean, median, etc.) for an array of numbers.
+         *
+         * @param input the Scanner object for user input
+         */
       public static void displayStatistics(Scanner input) {
             clearConsole();
             System.out.println("Statistical Information");
@@ -149,6 +165,13 @@ public class Main {
             input.nextLine(); // Wait for the user to press Enter
         }
 
+
+      /**
+       * Calculates the arithmetic mean of an array of numbers.
+       *
+       * @param numbers an array of double values
+       * @return the arithmetic mean of the numbers
+       */
     public static double calculateMean(double[] numbers) {
         double sum = 0;
         for (double num : numbers) {
@@ -157,6 +180,14 @@ public class Main {
         return sum / numbers.length;
     }
 
+    
+
+/**
+ * Calculates the median of an array of numbers.
+ *
+ * @param numbers an array of double values
+ * @return the median of the numbers
+ */
     public static double calculateMedian(double[] numbers) {
         java.util.Arrays.sort(numbers);
         int middle = numbers.length / 2;
@@ -167,6 +198,12 @@ public class Main {
         }
     }
 
+    /**
+     * Calculates the geometric mean of an array of numbers.
+     *
+     * @param numbers an array of double values
+     * @return the geometric mean of the numbers
+     */
     public static double calculateGeometricMean(double[] numbers) {
         double product = 1;
         for (double num : numbers) {
@@ -175,6 +212,14 @@ public class Main {
         return Math.pow(product, 1.0 / numbers.length);
     }
 
+    
+    /**
+     * Calculates the harmonic mean of an array of numbers using recursion.
+     *
+     * @param numbers an array of double values
+     * @param size the number of elements in the array
+     * @return the harmonic mean of the numbers
+     */
     public static double calculateHarmonicMean(double[] numbers, int size) {
         double sumOfInverses = harmonicMeanRecursive(numbers, size, 0);
         return size / sumOfInverses;
@@ -191,7 +236,13 @@ public class Main {
 
     
     //MatrixOperations
-    // Ana menüde çağrılacak metot
+ 
+    /**
+     * Runs the matrix operations menu and allows the user to select different matrix functions.
+     *
+     * @param input the Scanner object for user input
+     */
+    
     public static void runMatrixOperations(Scanner input) {
         int choice;
         double[][] matrix1 = null;
@@ -199,8 +250,8 @@ public class Main {
         double[][] result = null;
 
         do {
-            displayMenu(); // Matris işlemleri menüsünü göster
-            choice = getValidInteger(input); // Kullanıcıdan geçerli seçim al
+            displayMenu(); 
+            choice = getValidInteger(input); 
 
             switch (choice) {
                 case 1:
@@ -228,27 +279,33 @@ public class Main {
 
                 case 4:
                     System.out.println("\nINVERSE OF THE MATRIX\n");
-                    matrix1 = inputSquareMatrix(input); // Kare matris girişi
+                    matrix1 = inputSquareMatrix(input); 
                     result = findInverse(matrix1);
                     if (result != null) printMatrix(result);
                     break;
 
                 case 5:
                     System.out.println("Returning to main menu...");
-                    return; // Ana menüye dönüş
+                    return; 
                 default:
                     System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             }
 
-        } while (true); // Sürekli döngü, kullanıcı çıkana kadar çalışır
+        } while (true); 
     }
 
-    // Kare matris almak için kullanılan fonksiyon
+    
+    /**
+     * Takes user input to fill a square matrix.
+     *
+     * @param input the Scanner object for user input
+     * @return a square matrix filled with user input
+     */
     public static double[][] inputSquareMatrix(Scanner input) {
         int size;
 
         System.out.print("Enter the size of the square matrix (rows = columns): ");
-        size = getValidInteger(input); // Geçerli integer giriş al
+        size = getValidInteger(input); 
 
         double[][] matrix = new double[size][size];
 
@@ -256,13 +313,19 @@ public class Main {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 System.out.print("Matrix[" + i + "][" + j + "]: ");
-                matrix[i][j] = getValidDouble(input); // Geçerli double giriş
+                matrix[i][j] = getValidDouble(input); 
             }
         }
         return matrix;
     }
 
-    // Geçerli tamsayı girişi için yardımcı metot
+    
+    /**
+     * Prompts the user for a valid integer input.
+     *
+     * @param input the Scanner object for user input
+     * @return a valid integer input
+     */
     public static int getValidInteger(Scanner input) {
         while (true) {
             try {
@@ -274,7 +337,12 @@ public class Main {
         }
     }
 
-    // Matris girişini kullanıcıdan almak için kullanılan metot
+    /**
+     * Takes user input to fill a matrix.
+     *
+     * @param input the Scanner object for user input
+     * @return a matrix filled with user input
+     */
     public static double[][] inputMatrix(Scanner input) {
         int rows, columns;
 
@@ -296,7 +364,14 @@ public class Main {
         return matrix;
     }
 
-    // Geçerli double girişi için yardımcı metot
+    
+    
+    /**
+     * Prompts the user for a valid double input.
+     *
+     * @param input the Scanner object for user input
+     * @return a valid double input
+     */
     public static double getValidDouble(Scanner input) {
         while (true) {
             try {
@@ -308,7 +383,15 @@ public class Main {
         }
     }
 
-    // İki matrisi çarpan metot
+
+    
+    /**
+     * Multiplies two matrices and returns the result.
+     *
+     * @param matrix1 the first matrix
+     * @param matrix2 the second matrix
+     * @return the result of matrix multiplication
+     */
     public static double[][] multiplyMatrices(double[][] matrix1, double[][] matrix2) {
         int numRows1 = matrix1.length;
         int numCols1 = matrix1[0].length;
@@ -334,7 +417,14 @@ public class Main {
         return result;
     }
 
-    // İki matrisi eleman bazında çarpan metot
+    
+    /**
+     * Multiplies two matrices element-wise and returns the result.
+     *
+     * @param matrix1 the first matrix
+     * @param matrix2 the second matrix
+     * @return the result of element-wise matrix multiplication
+     */
     public static double[][] elementWiseMultiply(double[][] matrix1, double[][] matrix2) {
         int numRows = matrix1.length;
         int numCols = matrix1[0].length;
@@ -355,7 +445,14 @@ public class Main {
         return result;
     }
 
-    // Bir matrisin transpozunu alan metot
+ 
+    
+    /**
+     * Computes the transpose of a matrix.
+     *
+     * @param matrix1 the matrix to transpose
+     * @return the transpose of the matrix
+     */
     public static double[][] transposeMatrix(double[][] matrix1) {
         int numRows = matrix1.length;
         int numCols = matrix1[0].length;
@@ -370,6 +467,13 @@ public class Main {
     }
 
     // Bir matrisin tersini bulan metot
+    
+    /**
+     * Finds the inverse of a square matrix.
+     *
+     * @param matrix the matrix to find the inverse of
+     * @return the inverse of the matrix, or null if the matrix is singular
+     */
     public static double[][] findInverse(double[][] matrix) {
         int n = matrix.length;
         double[][] augmentedMatrix = new double[n][2 * n];
@@ -409,7 +513,11 @@ public class Main {
 
         return inverse;
     }
-
+    /**
+     * Prints a matrix to the console.
+     *
+     * @param matrix the matrix to print
+     */
     public static void printMatrix(double[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             System.out.print("[");
@@ -423,6 +531,9 @@ public class Main {
         }
     }
 
+    /**
+     * Displays the matrix operations menu.
+     */
     public static void displayMenu() {
         System.out.println("\nMatrix Operations Menu:");
         System.out.println("1. Matrix Multiplication");
@@ -434,6 +545,12 @@ public class Main {
     }
 
  //EncryptionDecryption
+    
+    /**
+     * Runs the encryption and decryption functionality using Caesar cipher.
+     *
+     * @param input the Scanner object for user input
+     */
     public static void runEncryptionDecryption(Scanner input) {
         Scanner scanner = new Scanner(System.in);
 
@@ -523,6 +640,11 @@ public class Main {
     
     
     //Tic-Tac-Toe
+    /**
+     * Runs the Tic-Tac-Toe game.
+     *
+     * @param input the Scanner object for user input
+     */
     public static void runTicTacToe(Scanner input) {
         char[][] board = {
             {'1', '2', '3'},
@@ -565,6 +687,11 @@ public class Main {
         }
     }
 
+    /**
+     * Prints the Tic-Tac-Toe board to the console.
+     *
+     * @param board the Tic-Tac-Toe board
+     */
     private static void printBoard(char[][] board) {
         System.out.println("Current board:");
         for (int i = 0; i < 3; i++) {
@@ -575,6 +702,13 @@ public class Main {
             System.out.println();
         }
     }
+    
+    /**
+     * Checks if the board is full in the Tic-Tac-Toe game.
+     *
+     * @param board the Tic-Tac-Toe board
+     * @return true if the board is full, false otherwise
+     */
 
     private static boolean checkWin(char[][] board, char player) {
         // Check rows, columns, and diagonals for a win
@@ -588,6 +722,12 @@ public class Main {
                (board[0][2] == player && board[1][1] == player && board[2][0] == player); // Check reverse diagonal
     }
 
+    /**
+     * Checks if the board is full in the Tic-Tac-Toe game.
+     *
+     * @param board the Tic-Tac-Toe board
+     * @return true if the board is full, false otherwise
+     */
     private static boolean isBoardFull(char[][] board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
