@@ -72,8 +72,7 @@ public class Main {
         }
     }
   //Statistical Information
-    public static void displayStatistics(Scanner input) {
-        clearConsole();
+         clearConsole();
         System.out.println("Statistical Information");
 
         try {
@@ -121,16 +120,15 @@ public class Main {
             System.out.printf("Arithmetic Mean: %.2f%n", mean);
             System.out.printf("Median: %.2f%n", median);
 
-            System.out.print("Do you want to continue? (M for Main Menu / E for Exit): ");
+            System.out.print("Do you want to continue? (M for Main Menu / C for Continue to Statistical Calculations): ");
             input.nextLine(); // Boş satırı temizlemek için
             String continueChoice = input.nextLine();
 
-            if (continueChoice.equalsIgnoreCase("E")) {
-                System.out.println("Exiting the program...");
-                input.close(); // Scanner'ı kapat
-                System.exit(0); // Programı tamamen kapatır
-            } else if (continueChoice.equalsIgnoreCase("M")) {
+            if (continueChoice.equalsIgnoreCase("M")) {
                 System.out.println("Returning to the Main Menu...");
+            } else if (continueChoice.equalsIgnoreCase("C")) {
+                System.out.println("Continuing to Statistical Calculations...");
+                displayStatistics(input); // İstatistik hesaplamalarına devam et
             } else {
                 System.out.println("Invalid input. Returning to the Main Menu...");
             }
@@ -143,14 +141,7 @@ public class Main {
         }
     }
 
-    private static void clearConsole() {
-        try {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        } catch (Exception e) {
-            System.out.println("An error occurred while clearing the console: " + e.getMessage());
-        }
-    }
+
 
     public static double calculateMean(double[] numbers) {
         double sum = 0;
@@ -170,6 +161,27 @@ public class Main {
         }
     }
 
+    public static double calculateGeometricMean(double[] numbers) {
+        double product = 1;
+        for (double num : numbers) {
+            product *= num;
+        }
+        return Math.pow(product, 1.0 / numbers.length);
+    }
+
+    public static double calculateHarmonicMean(double[] numbers, int size) {
+        double sumOfInverses = harmonicMeanRecursive(numbers, size, 0);
+        return size / sumOfInverses;
+    }
+
+    private static double harmonicMeanRecursive(double[] numbers, int size, int index) {
+        if (index >= size) {
+            return 0;
+        }
+        return 1.0 / numbers[index] + harmonicMeanRecursive(numbers, size, index + 1);
+    }
+
+    
     public static double calculateGeometricMean(double[] numbers) {
         double product = 1;
         for (double num : numbers) {
