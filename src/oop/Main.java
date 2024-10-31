@@ -72,7 +72,6 @@ public class Main {
         }
     }
 
-  //Statistical Information
     public static void displayStatistics(Scanner input) {
         clearConsole();
         System.out.println("Statistical Information");
@@ -380,72 +379,89 @@ public class Main {
     }
     
  //EncryptionDecryption
-    public static void runEncryptionDecryption(Scanner scanner) {
+    public static void runEncryptionDecryption(Scanner input) {
+        Scanner scanner = new Scanner(System.in);
+
         while (true) {
-            // Şifreleme/Çözme menüsü
-            System.out.println("\nMetin Şifreleme/Çözme");
-            System.out.println("1. Şifreleme");
-            System.out.println("2. Şifre Çözme");
-            System.out.println("3. Ana Menüye Dön");
-            System.out.print("Seçiminizi yapın: ");
+            // show the menu
+            System.out.println("\nText Encryption/Decryption");
+            System.out.println("1.Encryption");
+            System.out.println("2.Decryption");
+            System.out.println("3.Return to the Main Menu");
+            System.out.print("Choose: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Enter tuşunu temizlemek için
-
-            // Ana menüye dön
+            int choice;
+            try {
+                choice = scanner.nextInt();
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Please enter a valid number");
+                scanner.nextLine(); // clean the buffer
+                continue;
+            }
+            scanner.nextLine(); // It is going to prevent to push the enter button for multiple times
+            
+            // control for return to the main menu
             if (choice == 3) {
-                System.out.println("Ana menüye dönülüyor...");
+                System.out.println("Returning to main menu...");
                 break;
             }
 
-            // Kaydırma değerini al
-            System.out.print("Lütfen kaydırma değerini girin (-26 ile 26 arasında): ");
-            int shift = scanner.nextInt();
-            scanner.nextLine(); // Enter tuşunu temizlemek için
+            // take the shifting value
+            System.out.print("Please enter shifting value (between -26 to 26): ");
+            int shift;
+            try {
+                shift = scanner.nextInt();
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Please enter a valid number.");
+                scanner.nextLine(); // Clean the buffer
+                continue;
+            }
+            scanner.nextLine(); // It is going to prevent to push the enter button for multiple times
 
-            // Kaydırma değerinin geçerliliğini kontrol et
+            // check the validity of shifting value
             if (shift < -26 || shift > 26) {
-                System.out.println("Geçersiz kaydırma değeri. Lütfen -26 ile 26 arasında bir değer girin.");
+                System.out.println("Unvalid shifting value. Please enter a value between -26 to 26.");
                 continue;
             }
 
-            // Metni al
-            System.out.print("Metni girin: ");
+            // take the text
+            System.out.print("Enter the text: ");
             String text = scanner.nextLine();
 
-            // Metni şifrele veya çöz
-            String result = processText(choice, shift, text);
+            // create a string for result
+            String result = "";
+            // make encryption or decryption
+            for (int i = 0; i < text.length(); i++) {
+                char character = text.charAt(i);
 
-            // Sonucu göster
+                if (Character.isLetter(character)) {
+                    char mainLetter = Character.isUpperCase(character) ? 'A' : 'a';
+                    int diff = character - mainLetter;
+                    int newDiff;
+
+                    if (choice == 1) { // encryption
+                        newDiff = (diff + shift + 26) % 26;
+                    } else { // decryption
+                        newDiff = (diff - shift + 26) % 26;
+                    }
+
+                    char newChar = (char) (mainLetter + newDiff);
+                    result = result + newChar;
+                } else {
+                    result = result + character;
+                }
+            }
+
+            // show the result
             if (choice == 1) {
-                System.out.println("Şifrelenmiş metin: " + result);
+                System.out.println("Encrypted text: " + result);
             } else {
-                System.out.println("Çözülmüş metin: " + result);
+                System.out.println("Decrypted text: " + result);
             }
         }
-    }
 
-    private static String processText(int choice, int shift, String text) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < text.length(); i++) {
-            char character = text.charAt(i);
-
-            if (Character.isLetter(character)) {
-                char mainLetter = Character.isUpperCase(character) ? 'A' : 'a';
-                int diff = character - mainLetter;
-                int newDiff = (choice == 1) ? (diff + shift + 26) % 26 : (diff - shift + 26) % 26;
-                result.append((char) (mainLetter + newDiff));
-            } else {
-                result.append(character);
-            }
-            
-        }
-        return result.toString();
-        
-    
-       
+        scanner.close();
     }
-    
     
     
     //Tic-Tac-Toe
@@ -526,4 +542,3 @@ public class Main {
     }
 
     }
-
