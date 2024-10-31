@@ -390,7 +390,7 @@ public class Main {
     
  //EncryptionDecryption
     public static void runEncryptionDecryption(Scanner input) {
-        Scanner scanner = new Scanner(System.in);
+        
 
         while (true) {
             // show the menu
@@ -402,13 +402,13 @@ public class Main {
 
             int choice;
             try {
-                choice = scanner.nextInt();
+                choice = input.nextInt();
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Please enter a valid number");
-                scanner.nextLine(); // clean the buffer
+                input.nextLine(); // clean the buffer
                 continue;
             }
-            scanner.nextLine(); // It is going to prevent to push the enter button for multiple times
+            input.nextLine(); // It is going to prevent to push the enter button for multiple times
             
             // control for return to the main menu
             if (choice == 3) {
@@ -420,13 +420,13 @@ public class Main {
             System.out.print("Please enter shifting value (between -26 to 26): ");
             int shift;
             try {
-                shift = scanner.nextInt();
+                shift = input.nextInt();
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Please enter a valid number.");
-                scanner.nextLine(); // Clean the buffer
+                input.nextLine(); // Clean the buffer
                 continue;
             }
-            scanner.nextLine(); // It is going to prevent to push the enter button for multiple times
+            input.nextLine(); // It is going to prevent to push the enter button for multiple times
 
             // check the validity of shifting value
             if (shift < -26 || shift > 26) {
@@ -436,7 +436,7 @@ public class Main {
 
             // take the text
             System.out.print("Enter the text: ");
-            String text = scanner.nextLine();
+            String text = input.nextLine();
 
             // create a string for result
             String result = "";
@@ -472,7 +472,7 @@ public class Main {
         }
         
 
-        scanner.close();
+        
     }
     
     
