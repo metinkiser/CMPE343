@@ -71,7 +71,7 @@ public class Main {
             }
         }
     }
-
+  //Statistical Information
     public static void displayStatistics(Scanner input) {
         clearConsole();
         System.out.println("Statistical Information");
@@ -89,29 +89,38 @@ public class Main {
             double mean = calculateMean(numbers);
             double median = calculateMedian(numbers);
 
-            boolean hasZero = false;
+            boolean hasZeroOrNegative = false;
+            boolean hasNegative = false;
             for (double num : numbers) {
-                if (num == 0) {
-                    hasZero = true;
+                if (num <= 0) {
+                    hasZeroOrNegative = true;
+                }
+                if (num < 0) {
+                    hasNegative = true;
+                }
+                if (hasZeroOrNegative) {
                     break;
                 }
             }
 
-            if (hasZero) {
-                System.out.println("Geometric Mean is not valid for arrays containing zero.");
+            if (hasZeroOrNegative) {
+                System.out.println("Harmonic Mean cannot be calculated for arrays containing zero or negative values.");
+            } else {
+                double harmonicMean = calculateHarmonicMean(numbers, size);
+                System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
+            }
+
+            if (hasZeroOrNegative || hasNegative) {
+                System.out.println("Geometric Mean cannot be calculated for arrays containing zero or negative values.");
             } else {
                 double geometricMean = calculateGeometricMean(numbers);
                 System.out.printf("Geometric Mean: %.2f%n", geometricMean);
             }
 
-            double harmonicMean = calculateHarmonicMean(numbers, size);
-
             // Sonuçların gösterilmesi
             System.out.printf("Arithmetic Mean: %.2f%n", mean);
             System.out.printf("Median: %.2f%n", median);
-            System.out.printf("Harmonic Mean: %.2f%n", harmonicMean);
 
-            
             System.out.print("Do you want to continue? (M for Main Menu / E for Exit): ");
             input.nextLine(); // Boş satırı temizlemek için
             String continueChoice = input.nextLine();
@@ -180,6 +189,7 @@ public class Main {
         }
         return 1.0 / numbers[index] + harmonicMeanRecursive(numbers, size, index + 1);
     }
+
     
     //MatrixOperations
     public static void runMatrixOperations(Scanner input) {
@@ -244,6 +254,8 @@ public class Main {
             }
         } while (true);
     }
+    
+    
 
     private static void displayMenu() {
         System.out.println("\n--- Matrix Operations Menu ---");
