@@ -11,7 +11,7 @@ public class Main {
 	 */
     public static void main(String[] args) {
     	
-        // ASCII sanatı çıktısı
+        // ASCII 
         System.out.println("█     █  █▀▀  █     ▄▀▀▀   ▄▀▀▀▄   █▀▄ ▄▀█  █▀▀  █");
         System.out.println("█  ▄  █  █■■  █    ■      ■     ■  █  ▀  █  █■■  █");
         System.out.println("█▄▀ ▀▄█  █▄▄  █▄▄   ▀▄▄▄   ▀▄▄▄▀   █     █  █▄▄  ▄ ");
