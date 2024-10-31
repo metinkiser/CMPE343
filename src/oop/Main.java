@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+    	
         // ASCII sanatı çıktısı
         System.out.println("█     █  █▀▀  █     ▄▀▀▀   ▄▀▀▀▄   █▀▄ ▄▀█  █▀▀  █");
         System.out.println("█  ▄  █  █■■  █    ■      ■     ■  █  ▀  █  █■■  █");
@@ -34,45 +35,60 @@ public class Main {
         System.out.println("█     █    ▀▄▄▄▀   █  █  █    █  █     █  █     █  █▄▄    █      █▄▄  █     █  █  █  ▀▄     ▀▄▄▄▀   ▀▄▄▄▀   █    █  █▄▄▀   ▀▄▄▄▀    ▀▄▄▄▀   █▄▄▀  █▄▄▄▄█");
         System.out.println("                                                                                                                                                        ");
 
-        Scanner input = new Scanner(System.in);
-        boolean running = true;
+       
+            Scanner input = new Scanner(System.in);
+            boolean running = true;
 
-        while (running) {
-            System.out.println("\nMain Menu");
-            System.out.println("[A] Statistical Information");
-            System.out.println("[B] Matrix Operations");
-            System.out.println("[C] Text Encryption/Decryption");
-            System.out.println("[D] Tic-Tac-Toe");
-            System.out.println("[E] Exit");
-            System.out.print("Make your choice (A/B/C/D/E): ");
-            String choice = input.nextLine();
+            while (running) {
+                clearConsole(); // Konsolu temizle
+                System.out.println("\nMain Menu");
+                System.out.println("[A] Statistical Information");
+                System.out.println("[B] Matrix Operations");
+                System.out.println("[C] Text Encryption/Decryption");
+                System.out.println("[D] Tic-Tac-Toe");
+                System.out.println("[E] Exit");
+                System.out.print("Make your choice (A/B/C/D/E): ");
+                String choice = input.nextLine();
 
-            switch (choice.toUpperCase()) {
-                case "A":
-                    displayStatistics(input); // Call statistical information
-                    break;
-                case "B":
-                    runMatrixOperations(input); // Call matrix operations
-                    break;
-                case "C":
-                    runEncryptionDecryption(input); // Call encryption/decryption functionality
-                    break;
-                case "D":
-                    // Placeholder for Tic-Tac-Toe functionality
-                	runTicTacToe(input);
-                    break;
-                case "E":
-                    System.out.println("Exiting the program...");
-                    input.close(); // Close the scanner
-                    System.exit(0); // Programı tamamen kapatır
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                switch (choice.toUpperCase()) {
+                    case "A":
+                        clearConsole();
+                        displayStatistics(input); // Call statistical information
+                        break;
+                    case "B":
+                        clearConsole();
+                        runMatrixOperations(input); // Call matrix operations
+                        break;
+                    case "C":
+                        clearConsole();
+                        runEncryptionDecryption(input); // Call encryption/decryption functionality
+                        break;
+                    case "D":
+                        clearConsole();
+                        runTicTacToe(input); // Call Tic-Tac-Toe functionality
+                        break;
+                    case "E":
+                        System.out.println("Exiting the program...");
+                        input.close(); // Close the scanner
+                        System.exit(0); // Exit the program
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
             }
         }
-    }
+
+        private static void clearConsole() {
+            try {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            } catch (Exception e) {
+                System.out.println("An error occurred while clearing the console: " + e.getMessage());
+            }
+        }
   //Statistical Information
-         clearConsole();
+    public static void displayStatistics(Scanner input) {
+        clearConsole();
         System.out.println("Statistical Information");
 
         try {
@@ -161,27 +177,6 @@ public class Main {
         }
     }
 
-    public static double calculateGeometricMean(double[] numbers) {
-        double product = 1;
-        for (double num : numbers) {
-            product *= num;
-        }
-        return Math.pow(product, 1.0 / numbers.length);
-    }
-
-    public static double calculateHarmonicMean(double[] numbers, int size) {
-        double sumOfInverses = harmonicMeanRecursive(numbers, size, 0);
-        return size / sumOfInverses;
-    }
-
-    private static double harmonicMeanRecursive(double[] numbers, int size, int index) {
-        if (index >= size) {
-            return 0;
-        }
-        return 1.0 / numbers[index] + harmonicMeanRecursive(numbers, size, index + 1);
-    }
-
-    
     public static double calculateGeometricMean(double[] numbers) {
         double product = 1;
         for (double num : numbers) {
@@ -482,10 +477,13 @@ public class Main {
             } else {
                 System.out.println("Decrypted text: " + result);
             }
+            
         }
+        
 
         scanner.close();
     }
+    
     
     
     //Tic-Tac-Toe
