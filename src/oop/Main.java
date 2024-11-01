@@ -1,8 +1,8 @@
-package cmpe343_oop;
+package deneme;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-public class Main {
+public class deneyelim {
 	
 	/**
 	 * Main method to start the program and display the main menu.
@@ -162,8 +162,7 @@ public class Main {
 
             System.out.println("Press Enter to return to Main Menu...");
             input.nextLine(); // Wait for the user to press Enter
-	    input.nextLine();
-	
+            input.nextLine();
         }
 
 
