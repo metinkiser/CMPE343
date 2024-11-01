@@ -1,8 +1,8 @@
-package deneme;
+package group3_oop;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-public class deneyelim {
+public class Group3 {
 	
 	/**
 	 * Main method to start the program and display the main menu.
@@ -80,9 +80,15 @@ public class deneyelim {
                         System.exit(0); // Exit the program
                         break;
                     default:
-                        System.out.println("Invalid choice. Please try again.");
+                        System.out.println("Invalid choice. Press Enter to return to Main Menu.");
+                        input.nextLine(); // Wait for the user to press Enter
+                        input.nextLine();
                 }
             }
+            
+            
+            
+            
         }
 
     /**
@@ -631,14 +637,10 @@ public class deneyelim {
             
         }
         
-
         
     }
     
-    
-    
-    //Tic-Tac-Toe
-	
+   
     /**
      * Runs the Tic-Tac-Toe game.
      *
@@ -656,7 +658,16 @@ public class deneyelim {
         while (!gameWon && !isBoardFull(board)) {
             printBoard(board);
             System.out.print("Player " + currentPlayer + ", enter your move (1-9): ");
-            int move = input.nextInt();
+            
+            int move;
+            try {
+                move = input.nextInt();
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("You have entered an invalid value. Click Enter to return to the main menu.");
+                input.nextLine(); // Geçersiz girişi temizlemek için
+                input.nextLine(); // Kullanıcının Enter'a basmasını beklemek için
+                continue;
+            }
 
             // Convert the user entered action into a table
             int row = (move - 1) / 3;
@@ -664,7 +675,7 @@ public class deneyelim {
 
             // Invalid movement control
             if (move < 1 || move > 9 || (board[row][col] == 'X' || board[row][col] == 'O')) {
-                System.out.println("This move is not valid. Try again.");
+                System.out.println("This move is invalid. Try again.");
                 continue;
             }
 
@@ -684,6 +695,9 @@ public class deneyelim {
             printBoard(board);
             System.out.println("It's a draw!");
         }
+        System.out.println("Press Enter to return to Main Menu...");
+        input.nextLine(); // Wait for the user to press Enter
+        input.nextLine();
     }
 
     /**
@@ -701,14 +715,14 @@ public class deneyelim {
             System.out.println();
         }
     }
-	
+    
     /**
      * Checks for a win condition in the Tic-Tac-Toe game.
      *
      * @param board the Tic-Tac-Toe board
      * @param player the player to check for a win
      * @return true if the player has won, false otherwise
-    */ 
+     */ 
     private static boolean checkWin(char[][] board, char player) {
         // Check rows, columns, and diagonals for a win
         for (int i = 0; i < 3; i++) {
@@ -737,5 +751,4 @@ public class deneyelim {
         }
         return true; // No empty spaces
     }
-
-    }
+}
