@@ -162,6 +162,8 @@ public class Main {
 
             System.out.println("Press Enter to return to Main Menu...");
             input.nextLine(); // Wait for the user to press Enter
+	    input.nextLine();
+	
         }
 
 
