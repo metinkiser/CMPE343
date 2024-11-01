@@ -96,11 +96,10 @@ public class Main {
                 System.out.println("An error occurred while clearing the console: " + e.getMessage());
             }
         }
+	
   //Statistical Information
-        
-        
         /**
-         * Displays statistical information (mean, median, etc.) for an array of numbers.
+         * Displays statistical information for an array of numbers.
          *
          * @param input the Scanner object for user input
          */
@@ -242,7 +241,6 @@ public class Main {
      *
      * @param input the Scanner object for user input
      */
-    
     public static void runMatrixOperations(Scanner input) {
         int choice;
         double[][] matrix1 = null;
@@ -466,7 +464,6 @@ public class Main {
         return result;
     }
 
-    // Bir matrisin tersini bulan metot
     
     /**
      * Finds the inverse of a square matrix.
@@ -640,6 +637,7 @@ public class Main {
     
     
     //Tic-Tac-Toe
+	
     /**
      * Runs the Tic-Tac-Toe game.
      *
@@ -702,14 +700,14 @@ public class Main {
             System.out.println();
         }
     }
-    
+	
     /**
-     * Checks if the board is full in the Tic-Tac-Toe game.
+     * Checks for a win condition in the Tic-Tac-Toe game.
      *
      * @param board the Tic-Tac-Toe board
-     * @return true if the board is full, false otherwise
-     */
-
+     * @param player the player to check for a win
+     * @return true if the player has won, false otherwise
+    */ 
     private static boolean checkWin(char[][] board, char player) {
         // Check rows, columns, and diagonals for a win
         for (int i = 0; i < 3; i++) {
