@@ -19,7 +19,7 @@ public class MainApp {
                 } else if ("Engineer".equalsIgnoreCase(role) || "Technician".equalsIgnoreCase(role) || "Intern".equalsIgnoreCase(role)) {
                     EmployeeOperations.showEmployeeMenu(username);
                 } else {
-                    System.out.println("Invalid role! Exiting application.");
+                    System.out.println("Invalid role, exiting application...");
                     break;
                 }
             } catch (SQLException e) {
