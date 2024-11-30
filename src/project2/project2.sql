@@ -70,26 +70,26 @@ INSERT INTO roles (role_name) VALUES
 
 INSERT INTO employees (username, password, first_name, last_name, phone_no, email, date_of_birth, date_of_start)
 VALUES
-('user1', 'password1', 'Esma', 'Deniz', '555-111-1111', 'esma.deniz@example.com', '1990-01-01', '2020-05-01'),
-('user2', 'password2', 'Hacer', 'Sayar', '555-222-2222', 'hacer.sayar@example.com', '1988-02-02', '2019-06-15'),
-('user3', 'password3', 'Enes', 'Akyürek', '555-333-3333', 'enes.akyurek@example.com', '1995-03-03', '2021-01-10'),
-('user4', 'password4', 'Zeynep', 'Özen', '555-444-4444', 'zeynep.ozen@example.com', '1993-04-04', '2020-09-05'),
-('user5', 'password5', 'Berke', 'Dinç', '555-555-5555', 'berke.dinc@example.com', '1985-05-05', '2018-03-20'),
-('user6', 'password6', 'Melike', 'Al', '555-666-6666', 'melike.al@example.com', '1992-06-06', '2019-11-11'),
-('user7', 'password7', 'Onur', 'Oksay', '555-777-7777', 'onur.oksay@example.com', '1991-07-07', '2017-07-07'),
-('user8', 'password8', 'Hilal', 'Benli', '555-888-8888', 'hilal.benli@example.com', '1994-08-08', '2021-04-20'),
-('user9', 'password9', 'Burcu', 'Gülnaz', '555-999-9999', 'burcu.gulnaz@example.com', '1990-09-09', '2018-08-08'),
-('user10', 'password10', 'Ahmet', 'Yırtıcı', '555-101-0101', 'ahmet.yirtici@example.com', '1987-10-10', '2019-12-12'),
-('user11', 'password11', 'Nihal', 'Küçük', '555-102-0202', 'nihal.kucuk@example.com', '1996-11-11', '2020-06-01'),
-('user12', 'password12', 'Buğra', 'Şahin', '555-103-0303', 'bugra.sahin@example.com', '1989-12-12', '2016-03-15'),
-('user13', 'password13', 'Sümbül', 'Kaplan', '555-104-0404', 'sumbul.kaplan@example.com', '1997-01-01', '2022-01-01'),
-('user14', 'password14', 'Alperen', 'Ay', '555-105-0505', 'alperen.ay@example.com', '1991-02-02', '2020-10-10'),
-('user15', 'password15', 'Ceren', 'Yetkinler', '555-106-0606', 'ceren.yetkinler@example.com', '1986-03-03', '2018-05-15'),
-('user16', 'password16', 'Simge', 'Gülmez', '555-107-0707', 'simge.gulmez@example.com', '1994-04-04', '2019-09-30'),
-('user17', 'password17', 'Aysel', 'Şahin', '555-108-0808', 'aysel.sahin@example.com', '1993-05-05', '2017-11-20'),
-('user18', 'password18', 'İbrahim', 'Geyik', '555-109-0909', 'ibrahim.geyik@example.com', '1992-06-06', '2021-02-28'),
-('user19', 'password19', 'İkbal', 'Dağdelen', '555-110-1010', 'ikbal.dagdelen@example.com', '1990-07-07', '2019-08-08'),
-('user20', 'password20', 'Emir', 'Özdinç', '555-111-1112', 'emir.ozdinc@example.com', '1988-08-08', '2022-03-03');
+('user1', 'password1', 'Esma', 'Deniz', '555-111-1111', 'esma.deniz@example.com', '1995-01-01', '2021-05-01'),
+('user2', 'password2', 'Hacer', 'Sayar', '555-222-2222', 'hacer.sayar@example.com', '1998-02-02', '2020-06-15'),
+('user3', 'password3', 'Enes', 'Akyürek', '555-333-3333', 'enes.akyurek@example.com', '1990-03-03', '2022-01-10'),
+('user4', 'password4', 'Zeynep', 'Özen', '555-444-4444', 'zeynep.ozen@example.com', '1999-04-04', '2019-09-05'),
+('user5', 'password5', 'Berke', 'Dinç', '555-555-5555', 'berke.dinc@example.com', '1987-05-05', '2017-03-20'),
+('user6', 'password6', 'Melike', 'Al', '555-666-6666', 'melike.al@example.com', '1995-06-06', '2018-11-11'),
+('user7', 'password7', 'Onur', 'Oksay', '555-777-7777', 'onur.oksay@example.com', '1981-07-07', '2020-07-07'),
+('user8', 'password8', 'Hilal', 'Benli', '555-888-8888', 'hilal.benli@example.com', '1996-08-08', '2022-04-20'),
+('user9', 'password9', 'Burcu', 'Gülnaz', '555-999-9999', 'burcu.gulnaz@example.com', '1995-09-09', '2017-08-08'),
+('user10', 'password10', 'Ahmet', 'Yırtıcı', '555-101-0101', 'ahmet.yirtici@example.com', '1997-10-10', '2018-12-12'),
+('user11', 'password11', 'Nihal', 'Küçük', '555-102-0202', 'nihal.kucuk@example.com', '1995-11-11', '2021-06-01'),
+('user12', 'password12', 'Buğra', 'Şahin', '555-103-0303', 'bugra.sahin@example.com', '1990-12-12', '2017-03-15'),
+('user13', 'password13', 'Sümbül', 'Kaplan', '555-104-0404', 'sumbul.kaplan@example.com', '1995-01-01', '2019-01-01'),
+('user14', 'password14', 'Alperen', 'Ay', '555-105-0505', 'alperen.ay@example.com', '1992-02-02', '2019-10-10'),
+('user15', 'password15', 'Ceren', 'Yetkinler', '555-106-0606', 'ceren.yetkinler@example.com', '1984-03-03', '2020-05-15'),
+('user16', 'password16', 'Simge', 'Gülmez', '555-107-0707', 'simge.gulmez@example.com', '1990-04-04', '2018-09-30'),
+('user17', 'password17', 'Aysel', 'Şahin', '555-108-0808', 'aysel.sahin@example.com', '1991-05-05', '2020-11-20'),
+('user18', 'password18', 'İbrahim', 'Geyik', '555-109-0909', 'ibrahim.geyik@example.com', '1995-06-06', '2022-02-28'),
+('user19', 'password19', 'İkbal', 'Dağdelen', '555-110-1010', 'ikbal.dagdelen@example.com', '1991-07-07', '2018-08-08'),
+('user20', 'password20', 'Emir', 'Özdinç', '555-111-1112', 'emir.ozdinc@example.com', '1990-08-08', '2023-03-03');
 
 INSERT INTO employee_roles (employee_id, role_id)
 VALUES
