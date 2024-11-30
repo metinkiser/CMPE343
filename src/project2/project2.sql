@@ -70,12 +70,12 @@ INSERT INTO roles (role_name) VALUES
 
 INSERT INTO employees (username, password, first_name, last_name, phone_no, email, date_of_birth, date_of_start)
 VALUES
-('user1', 'password1', 'Ahmet', 'Yılmaz', '555-111-1111', 'ahmet.yilmaz@example.com', '1990-01-01', '2020-05-01'),
-('user2', 'password2', 'Mehmet', 'Kaya', '555-222-2222', 'mehmet.kaya@example.com', '1988-02-02', '2019-06-15'),
-('user3', 'password3', 'Fatma', 'Demir', '555-333-3333', 'fatma.demir@example.com', '1995-03-03', '2021-01-10'),
-('user4', 'password4', 'Zeynep', 'Çelik', '555-444-4444', 'zeynep.celik@example.com', '1993-04-04', '2020-09-05'),
-('user5', 'password5', 'Ali', 'Şahin', '555-555-5555', 'ali.sahin@example.com', '1985-05-05', '2018-03-20'),
-('user6', 'password6', 'Elif', 'Aydın', '555-666-6666', 'elif.aydin@example.com', '1992-06-06', '2019-11-11'),
+('user1', 'password1', 'Kader', 'Deniz', '555-111-1111', 'kader.deniz@example.com', '1990-01-01', '2020-05-01'),
+('user2', 'password2', 'Hacer', 'Sayar', '555-222-2222', 'hacer.sayar@example.com', '1988-02-02', '2019-06-15'),
+('user3', 'password3', 'Enes', 'Akyürek', '555-333-3333', 'enes.akyurek@example.com', '1995-03-03', '2021-01-10'),
+('user4', 'password4', 'Zeynep', 'Özen', '555-444-4444', 'zeynep.ozen@example.com', '1993-04-04', '2020-09-05'),
+('user5', 'password5', 'Berke', 'Dinç', '555-555-5555', 'berke.dinc@example.com', '1985-05-05', '2018-03-20'),
+('user6', 'password6', 'Melike', 'Al', '555-666-6666', 'melike.al@example.com', '1992-06-06', '2019-11-11'),
 ('user7', 'password7', 'Hüseyin', 'Yıldız', '555-777-7777', 'huseyin.yildiz@example.com', '1991-07-07', '2017-07-07'),
 ('user8', 'password8', 'Ayşe', 'Eren', '555-888-8888', 'ayse.eren@example.com', '1994-08-08', '2021-04-20'),
 ('user9', 'password9', 'Emre', 'Arslan', '555-999-9999', 'emre.arslan@example.com', '1990-09-09', '2018-08-08'),
