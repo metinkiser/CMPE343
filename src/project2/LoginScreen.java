@@ -8,7 +8,7 @@ public class LoginScreen {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("=== Firm Management System ===");
+            System.out.println("=====Firm Management System=====");
             System.out.print("Username: ");
             String username = scanner.nextLine();
 
@@ -19,7 +19,7 @@ public class LoginScreen {
                 System.out.println("Login successful!");
                 return username;
             } else {
-                System.out.println("Invalid username or password. Please try again.");
+                System.out.println("Invalid username or password... Please try again.");
             }
         }
     }
@@ -35,7 +35,7 @@ public class LoginScreen {
                 return resultSet.getInt(1) > 0;
             }
         } catch (SQLException e) {
-            System.out.println("Error during authentication: " + e.getMessage());
+            System.out.println("Authentication error: " + e.getMessage());
         }
         return false;
     }
