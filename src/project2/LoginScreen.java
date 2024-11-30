@@ -54,7 +54,7 @@ public class LoginScreen {
                 return resultSet.getString("role_name");
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving user role: " + e.getMessage());
+            System.out.println("Retrieve user role error: " + e.getMessage());
         }
         return null;
     }
