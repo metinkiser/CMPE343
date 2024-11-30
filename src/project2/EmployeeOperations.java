@@ -8,14 +8,14 @@ public class EmployeeOperations {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.printf("Welcome, %s (Employee)!%n", username);
-            System.out.println("1. Display profile");
-            System.out.println("2. Update profile");
-            System.out.println("3. Logout");
-            System.out.print("Select an option: ");
+            System.out.println("1-Display profile");
+            System.out.println("2-Update profile");
+            System.out.println("3-Logout");
+            System.out.print("Enter your choice: ");
 
             try {
                 int option = scanner.nextInt();
-                scanner.nextLine(); // Buffer temizleme
+                scanner.nextLine(); // Buffer cleaning
 
                 switch (option) {
                     case 1:
@@ -28,10 +28,10 @@ public class EmployeeOperations {
                         System.out.println("Logging out...");
                         return;
                     default:
-                        System.out.println("Invalid option. Please try again.");
+                        System.out.println("Invalid option... Please try again.");
                 }
             } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("Invalid input... Please enter a number.");
                 scanner.nextLine(); // Hatalı giriş temizleme
             }
         }
@@ -55,7 +55,7 @@ public class EmployeeOperations {
                 System.out.println("Profile not found.");
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving profile: " + e.getMessage());
+            System.out.println("Profile retrieval error: " + e.getMessage());
         }
     }
 
@@ -64,11 +64,11 @@ public class EmployeeOperations {
 
         while (true) {
             System.out.println("Select the information to update:");
-            System.out.println("1. Phone Number");
-            System.out.println("2. Email");
-            System.out.println("3. Password");
-            System.out.println("4. Back to Menu");
-            System.out.print("Enter your choice: ");
+            System.out.println("1-Phone Number");
+            System.out.println("2-Email");
+            System.out.println("3-Password");
+            System.out.println("4-Back to Menu");
+            System.out.print("Select an option: ");
 
             try {
                 int choice = scanner.nextInt();
@@ -101,7 +101,7 @@ public class EmployeeOperations {
                         return;
 
                     default:
-                        System.out.println("Invalid choice. Please try again.");
+                        System.out.println("Invalid choice... Please try again.");
                         continue;
                 }
 
@@ -114,15 +114,15 @@ public class EmployeeOperations {
 
                     int rowsUpdated = statement.executeUpdate();
                     if (rowsUpdated > 0) {
-                        System.out.println("Information updated successfully!");
+                        System.out.println("Information update successful!");
                     } else {
-                        System.out.println("Failed to update information.");
+                        System.out.println("Information update failed.");
                     }
                 } catch (SQLException e) {
-                    System.out.println("Error updating profile: " + e.getMessage());
+                    System.out.println("Profile update error: " + e.getMessage());
                 }
             } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+                System.out.println("Invalid input... Please enter a valid number.");
                 scanner.nextLine(); // Hatalı giriş temizleme
             }
         }
