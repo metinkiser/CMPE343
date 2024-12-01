@@ -19,7 +19,7 @@ public class LoginScreen {
                 System.out.println("Login successful!");
                 return username;
             } else {
-                System.out.println("Invalid username or password... Please try again.");
+                System.out.println("Invalid username or password, please try again.");
             }
         }
     }
