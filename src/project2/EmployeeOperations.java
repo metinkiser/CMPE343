@@ -8,9 +8,9 @@ public class EmployeeOperations {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.printf("Welcome, %s (Employee)!%n", username);
-            System.out.println("1-Displaying profile");
-            System.out.println("2-Updating profile");
-            System.out.println("3-Logging out");
+            System.out.println("1-Display profile");
+            System.out.println("2-Update profile");
+            System.out.println("3-Logout");
             System.out.print("Enter your choice: ");
 
             try {
