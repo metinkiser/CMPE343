@@ -9,12 +9,12 @@ public class ManagerOperations {
 
         while (true) {
             System.out.printf("Welcome, %s (Manager)!%n", username);
-            System.out.println("1. Display all employees");
-            System.out.println("2. Display employees by role");
-            System.out.println("3. Hire employee");
-            System.out.println("4. Fire employee");
-            System.out.println("5. Update employee info");
-            System.out.println("6. Logout");
+            System.out.println("1-Displaying all employees");
+            System.out.println("2-Displaying employees by role");
+            System.out.println("3-Hiring employee");
+            System.out.println("4-Firing employee");
+            System.out.println("5-Updating employee info");
+            System.out.println("6-Logging out");
             System.out.print("Select an option: ");
 
             try {
@@ -41,10 +41,10 @@ public class ManagerOperations {
                         System.out.println("Logging out...");
                         return; // Logout işlemi
                     default:
-                        System.out.println("Invalid option. Please try again.");
+                        System.out.println("Invalid option, please try again.");
                 }
             } catch (Exception e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.out.println("Invalid input, please enter a number.");
                 scanner.nextLine(); // Geçersiz girişleri temizle
             }
         }
