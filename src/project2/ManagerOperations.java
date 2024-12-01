@@ -14,7 +14,7 @@ public class ManagerOperations {
             System.out.println("3-Hiring employee");
             System.out.println("4-Firing employee");
             System.out.println("5-Updating employee info");
-            System.out.println("6-Logging out");
+            System.out.println("6-Logout");
             System.out.print("Select an option: ");
 
             try {
