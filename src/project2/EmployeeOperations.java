@@ -28,10 +28,10 @@ public class EmployeeOperations {
                         System.out.println("Logging out...");
                         return;
                     default:
-                        System.out.println("Invalid option... Please try again.");
+                        System.out.println("Invalid option, please try again.");
                 }
             } catch (Exception e) {
-                System.out.println("Invalid input... Please enter a number.");
+                System.out.println("Invalid input, please enter a number.");
                 scanner.nextLine(); // Hatalı giriş temizleme
             }
         }
@@ -101,7 +101,7 @@ public class EmployeeOperations {
                         return;
 
                     default:
-                        System.out.println("Invalid choice... Please try again.");
+                        System.out.println("Invalid choice, please try again.");
                         continue;
                 }
 
@@ -122,7 +122,7 @@ public class EmployeeOperations {
                     System.out.println("Profile update error: " + e.getMessage());
                 }
             } catch (Exception e) {
-                System.out.println("Invalid input... Please enter a valid number.");
+                System.out.println("Invalid input, please enter a valid number.");
                 scanner.nextLine(); // Hatalı giriş temizleme
             }
         }
