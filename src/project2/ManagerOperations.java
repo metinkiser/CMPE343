@@ -9,17 +9,18 @@ public class ManagerOperations {
 
         while (true) {
             System.out.printf("Welcome, %s (Manager)!%n", username);
-            System.out.println("1-Displaying all employees");
-            System.out.println("2-Displaying employees by role");
-            System.out.println("3-Hiring employee");
-            System.out.println("4-Firing employee");
-            System.out.println("5-Updating employee info");
-            System.out.println("6-Logout");
+            System.out.println("1- Displaying all employees");
+            System.out.println("2- Displaying employees by role");
+            System.out.println("3- Hiring employee");
+            System.out.println("4- Firing employee");
+            System.out.println("5- Updating employee info");
+            System.out.println("6- Run sorting algorithms");
+            System.out.println("7- Logout");
             System.out.print("Select an option: ");
 
             try {
                 int option = scanner.nextInt();
-                scanner.nextLine(); // Buffer temizleme
+                scanner.nextLine(); 
 
                 switch (option) {
                     case 1:
@@ -38,14 +39,18 @@ public class ManagerOperations {
                         updateEmployeeInfo();
                         break;
                     case 6:
+                        
+                        ManagerAlgorithms.runAlgorithmsMenu();
+                        break;
+                    case 7:
                         System.out.println("Logging out...");
-                        return; // Logout işlemi
+                        return; 
                     default:
                         System.out.println("Invalid option, please try again.");
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input, please enter a number.");
-                scanner.nextLine(); // Geçersiz girişleri temizle
+                scanner.nextLine(); 
             }
         }
     }
@@ -258,4 +263,3 @@ public class ManagerOperations {
         }
     }
 }
-
