@@ -32,7 +32,7 @@ public class EmployeeOperations {
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input, please enter a number.");
-                scanner.nextLine(); // Hatalı giriş temizleme
+                scanner.nextLine(); 
             }
         }
     }
@@ -72,7 +72,7 @@ public class EmployeeOperations {
 
             try {
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Buffer temizleme
+                scanner.nextLine(); 
 
                 String updateQuery = null;
                 String newValue = null;
@@ -105,7 +105,7 @@ public class EmployeeOperations {
                         continue;
                 }
 
-                // Güncelleme işlemini gerçekleştir
+                
                 try (Connection connection = DatabaseUtil.getConnection();
                      PreparedStatement statement = connection.prepareStatement(updateQuery)) {
 
