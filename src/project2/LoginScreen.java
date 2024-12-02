@@ -8,6 +8,17 @@ public class LoginScreen {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+        	
+        	 System.out.println("\u001B[35m" + "██╗    ██╗███████╗ ██████╗ ██████╗ ██╗     ███╗   ███╗███████╗" + "\u001B[0m");
+             System.out.println("\u001B[36m" + "██║    ██║██╔════╝██╔════╝██╔═══██╗██║     ████╗ ████║██╔════╝" + "\u001B[0m");
+             System.out.println("\u001B[33m" + "██║ █╗ ██║█████╗  ██║     ██║   ██║██║     ██╔████╔██║█████╗  " + "\u001B[0m");
+             System.out.println("\u001B[32m" + "██║███╗██║██╔══╝  ██║     ██║   ██║██║     ██║╚██╔╝██║██╔══╝  " + "\u001B[0m");
+             System.out.println("\u001B[31m" + "╚███╔███╔╝███████╗╚██████╗╚██████╔╝███████╗██║ ╚═╝ ██║███████╗" + "\u001B[0m");
+             System.out.println("\u001B[34m" + " ╚══╝╚══╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝     ╚═╝╚══════╝" + "\u001B[0m");
+             System.out.println("\u001B[36m" + "         WELCOME TO FIRM MANAGEMENT SYSTEM          " + "\u001B[0m");
+        	
+        	
+        	
             System.out.println("=====Firm Management System=====");
             System.out.print("Username: ");
             String username = scanner.nextLine();
@@ -59,4 +70,3 @@ public class LoginScreen {
         return null;
     }
 }
-
