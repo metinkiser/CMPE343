@@ -22,7 +22,7 @@ USE firm_management;
 SELECT * FROM employees;
 
 ALTER TABLE employees
-ADD roles VARCHAR(50); -- "VARCHAR(50)" sütun uzunluğunu ihtiyaçlarınıza göre ayarlayabilirsiniz
+ADD roles VARCHAR(50); 
 
 SET SQL_SAFE_UPDATES = 0;
 
