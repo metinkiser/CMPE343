@@ -30,12 +30,18 @@ public class EmployeeOperations {
                 switch (option) {
                     case 1:
                         viewPersonalInformation(username);
+                        scanner.nextLine();
+                        clearScreen();
                         break;
                     case 2:
                         updatePersonalInformation(username);
+                        scanner.nextLine();
+                        clearScreen();
                         break;
                     case 3:
                         System.out.println("Logging out...");
+                        scanner.nextLine();
+                        clearScreen();
                         return; // Exit menu
                     default:
                         System.out.println("Invalid option. Please try again.");
@@ -180,4 +186,9 @@ public class EmployeeOperations {
 
         return validateInput(scanner, prompt, regex, errorMessage, maxAttempts);
     }
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+    
 }
