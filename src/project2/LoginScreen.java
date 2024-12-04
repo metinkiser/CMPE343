@@ -4,13 +4,13 @@ import java.sql.*;
 import java.util.Scanner;
 
 /**
- * Handles the login functionality for the Firm Management System.
+ * Handles the login functionality for the Firm Management System which is main program.
  * Provides methods for authenticating users and retrieving their roles.
  */
 public class LoginScreen {
 
     /**
-     * Clears the console screen for a cleaner user interface.
+     * Clears the console screen for a cleaner user interface and better usage.
      */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
@@ -118,7 +118,7 @@ public class LoginScreen {
     /**
      * Retrieves the role of a user from the database based on their username.
      *
-     * @param connection the database connection.
+     * @param connection to the database connection.
      * @param username   the username of the user.
      * @return the role name of the user if found, or null otherwise.
      */
