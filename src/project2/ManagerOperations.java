@@ -11,8 +11,9 @@ import java.time.format.DateTimeParseException;
 
 
 /**
- * Provides functionalities for managers, including hiring, firing, 
+ * Providing some  functionalities for managers, which includes hiring, firing, 
  * and updating employee information, as well as displaying and sorting employees.
+ * These functions are crucial for manager role and healthy for working process.
  */
 public class ManagerOperations {
 	
@@ -87,7 +88,7 @@ public class ManagerOperations {
     }
 
     /**
-     * Displays all employees with their information sorted by employee ID.
+     * Employees are displayed with their information under the light of their employee ID.
      */
     private static void displayAllEmployees() {
         String query = "SELECT e.employee_id, e.username, e.first_name, e.last_name, e.phone_no, e.email, e.date_of_birth, e.date_of_start, r.role_name " +
@@ -123,7 +124,7 @@ public class ManagerOperations {
 
 
     /**
-     * Displays employees filtered by their role.
+     * Employees are filtered by their role and then display action occurs.
      */
     private static void displayEmployeesByRole() {
         Scanner scanner = new Scanner(System.in);
@@ -183,7 +184,7 @@ public class ManagerOperations {
 
 
     /**
-     * Hires a new employee by collecting their details and inserting them into the database.
+     * Details of a new employee collecting and these informations are inserted into the database.
      */
     private static void hireEmployee() {
         Scanner scanner = new Scanner(System.in);
@@ -358,7 +359,7 @@ public class ManagerOperations {
 
 
     /**
-     * Fires an employee by their username.
+     * This function fires an employee by their username.
      */
     private static void fireEmployee() {
     	System.out.println("Current employees:");
@@ -528,7 +529,7 @@ public class ManagerOperations {
     	
     	
         /**
-         * Clears the console screen for a cleaner user interface.
+         * Console screens clearence is done for a better user interface.
          */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
