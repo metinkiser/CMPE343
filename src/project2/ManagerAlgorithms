@@ -1,8 +1,7 @@
 import java.util.*;
 
 /**
- * The ManagerAlgorithms class provides a set of algorithms for sorting,
- * measures the execution time and generates random data. It includes
+ * The `ManagerAlgorithms` class offers a collection of sorting algorithms, measures their execution time, and generates random data for testing. It includes
  * Implementations of Insertion Sort, Heap Sort, Shell Sort, and Radix Sort.
  */
 public class ManagerAlgorithms {
