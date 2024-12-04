@@ -1,4 +1,3 @@
-
 package project2;
 
 import java.sql.*;
@@ -15,7 +14,7 @@ import java.time.format.DateTimeParseException;
  * and updating employee information, as well as displaying and sorting employees.
  * These functions are crucial for manager role and healthy for working process.
  */
-public class ManagerOperations {
+public class ManagerOperations{
 	
     /**
      * Displays the manager menu and processes user actions.
@@ -362,18 +361,27 @@ public class ManagerOperations {
      * This function fires an employee by their username.
      */
     private static void fireEmployee() {
-    	System.out.println("Current employees:");
-        displayAllEmployees();
-    	Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+
+        // Kullanıcıdan oturum açmış kullanıcı adını alın
+        System.out.print("Enter your username (current logged-in user): ");
+        String currentUsername = scanner.nextLine().toLowerCase();
+
+        // Çalışan listesini göster
+        System.out.println("Current employees:");
+        displayAllEmployees(); // Çalışanları listelemek için bu metodu tanımlayın
+
+        // Silmek istediğiniz çalışanın kullanıcı adını alın
         System.out.print("Enter employee username to fire: ");
         String username = scanner.nextLine().toLowerCase();
 
-        if (isManagerByUsername(username)) {
-            System.out.println("You cannot fire another manager or yourself.");
-            scanner.nextLine();
+        // Kendini silmeye izin verme
+        if (username.equalsIgnoreCase(currentUsername)) {
+            System.out.println("You cannot fire yourself.");
             return;
         }
 
+        // SQL sorgusu: Çalışanı sil
         String deleteQuery = "DELETE FROM employees WHERE LOWER(username) = ?";
 
         try (Connection connection = DatabaseUtil.getConnection();
@@ -407,6 +415,7 @@ public class ManagerOperations {
         }
         return false;
     }
+
 
     /**
      * Updates an employee's information based on user input.
