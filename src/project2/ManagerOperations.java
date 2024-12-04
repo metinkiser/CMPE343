@@ -10,7 +10,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 
+/**
+ * Provides functionalities for managers, including hiring, firing, 
+ * and updating employee information, as well as displaying and sorting employees.
+ */
 public class ManagerOperations {
+	
+    /**
+     * Displays the manager menu and processes user actions.
+     *
+     * @param username the username of the logged-in manager.
+     */
     public static void showManagerMenu(String username) {
         Scanner scanner = new Scanner(System.in);
 
@@ -76,27 +86,28 @@ public class ManagerOperations {
         }
     }
 
+    /**
+     * Displays all employees with their information sorted by employee ID.
+     */
     private static void displayAllEmployees() {
-        // SQL sorgusuna sıralama kriteri ekleniyor (employee_id'ye göre artan sıralama)
         String query = "SELECT e.employee_id, e.username, e.first_name, e.last_name, e.phone_no, e.email, e.date_of_birth, e.date_of_start, r.role_name " +
                        "FROM employees e " +
                        "JOIN employee_roles er ON e.employee_id = er.employee_id " +
                        "JOIN roles r ON er.role_id = r.role_id " +
-                       "ORDER BY e.employee_id"; // Sıralama burada yapılıyor
+                       "ORDER BY e.employee_id"; 
 
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
-            // Başlıkları yazdırıyoruz
             System.out.printf("%-10s %-20s %-15s %-15s %-15s %-25s %-15s %-15s %-15s%n", 
                               "ID", "Username", "First Name", "Last Name", "Phone No", "Email", "Date of Birth", "Date of Start", "Role");
 
-            // Sonuçları sıralı bir şekilde yazdırıyoruz
+            
             while (resultSet.next()) {
                 System.out.printf("%-10d %-20s %-15s %-15s %-15s %-25s %-15s %-15s %-15s%n",
                         resultSet.getInt("employee_id"),
-                        resultSet.getString("username"),  // Username sütunu
+                        resultSet.getString("username"),  
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
                         resultSet.getString("phone_no"),
@@ -111,6 +122,9 @@ public class ManagerOperations {
     }
 
 
+    /**
+     * Displays employees filtered by their role.
+     */
     private static void displayEmployeesByRole() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select a role:");
@@ -168,6 +182,9 @@ public class ManagerOperations {
     }
 
 
+    /**
+     * Hires a new employee by collecting their details and inserting them into the database.
+     */
     private static void hireEmployee() {
         Scanner scanner = new Scanner(System.in);
 
@@ -177,7 +194,6 @@ public class ManagerOperations {
         System.out.print("Enter last name: ");
         String lastName = scanner.nextLine();
 
-        // Kullanıcı adı kontrolü
         String username;
         while (true) {
             System.out.print("Enter username: ");
@@ -190,11 +206,11 @@ public class ManagerOperations {
             }
         }
 
-        // Rastgele şifre oluşturma
+
         String password = generateRandomPassword();
         System.out.println("Generated password for the new employee: " + password);
 
-        // Telefon numarası kontrolü
+
         String phoneNumber;
         while (true) {
             System.out.print("Enter phone number (must start with 5 and be 10 digits): ");
@@ -206,7 +222,7 @@ public class ManagerOperations {
             }
         }
 
-        // E-posta kontrolü
+
         String email;
         while (true) {
             System.out.print("Enter email: ");
@@ -218,7 +234,7 @@ public class ManagerOperations {
             }
         }
 
-        // Doğum tarihi ve işe başlama tarihi kontrolü
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         String dateOfBirth;
@@ -245,7 +261,7 @@ public class ManagerOperations {
                 try {
                     LocalDate startDate = LocalDate.parse(dateOfStart, formatter);
                     if (!startDate.isBefore(LocalDate.now())) {
-                        break; // Geçerli tarih olduğunda döngüden çıkılır
+                        break; 
                     } else {
                         System.out.println("Start date cannot be before today's date.");
                     }
@@ -258,7 +274,6 @@ public class ManagerOperations {
         }
 
 
-        // Rol kontrolü
         String roleName;
         while (true) {
             System.out.print("Enter role (Manager, Engineer, Technician, Intern): ");
@@ -270,7 +285,6 @@ public class ManagerOperations {
             }
         }
 
-        // Veritabanı işlemleri
         String insertEmployeeQuery = "INSERT INTO employees (username, password, first_name, last_name, phone_no, email, date_of_birth, date_of_start) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String assignRoleQuery = "INSERT INTO employee_roles (employee_id, role_id) VALUES ((SELECT employee_id FROM employees WHERE username = ?), (SELECT role_id FROM roles WHERE role_name = ?))";
 
@@ -342,6 +356,10 @@ public class ManagerOperations {
     }
 
 
+
+    /**
+     * Fires an employee by their username.
+     */
     private static void fireEmployee() {
     	System.out.println("Current employees:");
         displayAllEmployees();
@@ -389,6 +407,9 @@ public class ManagerOperations {
         return false;
     }
 
+    /**
+     * Updates an employee's information based on user input.
+     */
     private static void updateEmployeeInfo() {
     	  Scanner scanner = new Scanner(System.in);
 
@@ -414,7 +435,7 @@ public class ManagerOperations {
 
     	        try {
     	            int choice = scanner.nextInt();
-    	            scanner.nextLine(); // Buffer temizleme
+    	            scanner.nextLine(); 
 
     	            String updateQuery = null;
     	            String newValue = null;
@@ -470,7 +491,7 @@ public class ManagerOperations {
     	            }
     	        } catch (Exception e) {
     	            System.out.println("Invalid input. Please enter a valid option.");
-    	            scanner.nextLine(); // Geçersiz girişleri temizle
+    	            scanner.nextLine(); 
     	        }
     	    }
     	}
@@ -504,7 +525,11 @@ public class ManagerOperations {
     	    }
     	    return false;
     	}
-    
+    	
+    	
+        /**
+         * Clears the console screen for a cleaner user interface.
+         */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
