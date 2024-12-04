@@ -40,10 +40,10 @@ public class EmployeeOperations {
                     default:
                         System.out.println("Invalid option. Please try again.");
                 }
-                System.out.println("\n\n"); // Add spacing for clarity
+                System.out.println("\n\n"); // Add spacing for clarity and better usage
             } catch (Exception e) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.nextLine(); // Clear invalid input
+                scanner.nextLine(); // Clearing invalid input.
             }
         }
     }
@@ -83,7 +83,7 @@ public class EmployeeOperations {
     /**
      * Updates the personal information of the employee based on user input.
      *
-     * @param username the username of the employee.
+     * @param username The username of the employee.
      */
     private static void updatePersonalInformation(String username) {
         Scanner scanner = new Scanner(System.in);
@@ -141,7 +141,7 @@ public class EmployeeOperations {
                     System.out.println("Error updating information: " + e.getMessage());
                 }
             }
-            System.out.println("\n\n"); // Add spacing for clarity
+            System.out.println("\n\n"); // Adding spacing for better user interface
         }
     }
 
