@@ -34,10 +34,8 @@ public class LoginScreen {
                 System.out.println("Invalid input, please enter a number.");
                 continue;
             }
-            scanner.nextLine(); // Enter tuşunu temizlemek için
-
+           
             switch (option) {
-
                 
                 case 1:
                     // Kullanıcıdan giriş bilgileri alınır
