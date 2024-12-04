@@ -1,3 +1,4 @@
+
 package project2;
 
 import java.sql.*;
@@ -65,30 +66,38 @@ public class ManagerOperations {
     }
 
     private static void displayAllEmployees() {
+        // SQL sorgusuna sıralama kriteri ekleniyor (employee_id'ye göre artan sıralama)
         String query = "SELECT e.employee_id, e.first_name, e.last_name, e.phone_no, e.email, e.date_of_birth, e.date_of_start, r.role_name " +
                        "FROM employees e " +
                        "JOIN employee_roles er ON e.employee_id = er.employee_id " +
-                       "JOIN roles r ON er.role_id = r.role_id";
+                       "JOIN roles r ON er.role_id = r.role_id " +
+                       "ORDER BY e.employee_id"; // Sıralama burada yapılıyor
 
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
-            System.out.printf("%-10s %-15s %-15s %-15s %-25s %-15s %-15s%n", "ID", "First Name", "Last Name", "Phone No", "Email", "Date of Birth", "Date of Start");
+            // Başlıkları yazdırıyoruz
+            System.out.printf("%-10s %-15s %-15s %-15s %-25s %-15s %-15s %-15s%n", 
+                              "ID", "First Name", "Last Name", "Phone No", "Email", "Date of Birth", "Date of Start", "Role");
+
+            // Sonuçları sıralı bir şekilde yazdırıyoruz
             while (resultSet.next()) {
-                System.out.printf("%-10d %-15s %-15s %-15s %-25s %-15s %-15s%n",
+                System.out.printf("%-10d %-15s %-15s %-15s %-25s %-15s %-15s %-15s%n",
                         resultSet.getInt("employee_id"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
                         resultSet.getString("phone_no"),
                         resultSet.getString("email"),
                         resultSet.getDate("date_of_birth"),
-                        resultSet.getDate("date_of_start"));
+                        resultSet.getDate("date_of_start"),
+                        resultSet.getString("role_name"));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving employees: " + e.getMessage());
         }
     }
+
 
     private static void displayEmployeesByRole() {
         Scanner scanner = new Scanner(System.in);
