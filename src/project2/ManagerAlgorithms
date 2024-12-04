@@ -1,118 +1,140 @@
-package project2;
 import java.util.*;
 
+/**
+ * The ManagerAlgorithms class provides a set of algorithms for sorting,
+ * measures the execution time and generates random data. It includes
+ * Implementations of Insertion Sort, Heap Sort, Shell Sort, and Radix Sort.
+ */
 public class ManagerAlgorithms {
 
-    // Generates a random array
-    public static int[] generateRandomArray(int size, int min, int max) {
+    /**
+     * Generates a random list of integers.
+     *
+     * @param size the number of elements in the list
+     * @param min the minimum value of elements
+     * @param max the maximum value of elements
+     * @return a list of random integers
+     */
+    public static List<Integer> generateRandomList(int size, int min, int max) {
         Random random = new Random();
-        int[] array = new int[size];
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            array[i] = random.nextInt(max - min + 1) + min;
+            list.add(random.nextInt(max - min + 1) + min);
         }
-        return array;
+        return list;
     }
 
-    // Measures the execution time of an algorithm
-    public static long measureExecutionTime(int[] array, String algorithm) {
+    /**
+     * Measures the execution time of a specified sorting algorithm.
+     *
+     * @param list the list to be sorted
+     * @param algorithm the name of the sorting algorithm ("insertion", "heap", "shell", "radix", or "default")
+     * @return the execution time in nanoseconds
+     */
+    public static long measureExecutionTime(List<Integer> list, String algorithm) {
         long startTime = System.nanoTime();
         if (algorithm.equals("insertion")) {
-            insertionSort(array);
+            insertionSort(list);
         } else if (algorithm.equals("heap")) {
-            heapSort(array);
+            heapSort(list);
         } else if (algorithm.equals("shell")) {
-            shellSort(array);
+            shellSort(list);
         } else if (algorithm.equals("radix")) {
-            radixSort(array);
+            radixSort(list);
         } else if (algorithm.equals("default")) {
-            Arrays.sort(array);
+            Collections.sort(list);
         }
         long endTime = System.nanoTime();
         return endTime - startTime;
     }
 
-    // Insertion Sort
-    public static void insertionSort(int[] array) {
-        for (int i = 1; i < array.length; i++) {
-            int temp = array[i];
+    /**
+     * Sorts a list using the Insertion Sort algorithm.
+     *
+     * @param list the list to be sorted
+     */
+    public static void insertionSort(List<Integer> list) {
+        for (int i = 1; i < list.size(); i++) {
+            int temp = list.get(i);
             int j = i - 1;
-            while (j >= 0 && array[j] > temp) {
-                array[j + 1] = array[j];
+            while (j >= 0 && list.get(j) > temp) {
+                list.set(j + 1, list.get(j));
                 j--;
             }
-            array[j + 1] = temp;
+            list.set(j + 1, temp);
         }
     }
 
-    // Heap Sort
-    public static void heapSort(int[] array) {
-        PriorityQueue<Integer> heap = new PriorityQueue<>();
-        for (int value : array) {
-            heap.add(value);
-        }
-        int i = 0;
-        while (!heap.isEmpty()) {
-            array[i] = heap.poll();
-            i++;
+    /**
+     * Sorts a list using the Heap Sort algorithm.
+     *
+     * @param list the list to be sorted
+     */
+    public static void heapSort(List<Integer> list) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>(list);
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, heap.poll());
         }
     }
 
-    // Shell Sort
-    public static void shellSort(int[] array) {
-        int n = array.length;
+    /**
+     * Sorts a list using the Shell Sort algorithm.
+     *
+     * @param list the list to be sorted
+     */
+    public static void shellSort(List<Integer> list) {
+        int n = list.size();
         int gap = n / 2;
         while (gap > 0) {
             for (int i = gap; i < n; i++) {
-                int temp = array[i];
+                int temp = list.get(i);
                 int j = i;
-                while (j >= gap && array[j - gap] > temp) {
-                    array[j] = array[j - gap];
+                while (j >= gap && list.get(j - gap) > temp) {
+                    list.set(j, list.get(j - gap));
                     j -= gap;
                 }
-                array[j] = temp;
+                list.set(j, temp);
             }
             gap /= 2;
         }
     }
 
-    // Radix Sort
-    public static void radixSort(int[] array) {
-        int min = Integer.MAX_VALUE;
-        for (int value : array) {
-            if (value < min) {
-                min = value;
-            }
-        }
-
+    /**
+     * Sorts a list using the Radix Sort algorithm.
+     *
+     * @param list the list to be sorted
+     */
+    public static void radixSort(List<Integer> list) {
+        int min = Collections.min(list);
         int offset = (min < 0) ? -min : 0;
-        for (int i = 0; i < array.length; i++) {
-            array[i] += offset;
+
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, list.get(i) + offset);
         }
 
-        int max = Integer.MIN_VALUE;
-        for (int value : array) {
-            if (value > max) {
-                max = value;
-            }
-        }
-
+        int max = Collections.max(list);
         int exp = 1;
         while (max / exp > 0) {
-            countingSortByDigit(array, exp);
+            countingSortByDigit(list, exp);
             exp *= 10;
         }
 
-        for (int i = 0; i < array.length; i++) {
-            array[i] -= offset;
+        for (int i = 0; i < list.size(); i++) {
+            list.set(i, list.get(i) - offset);
         }
     }
-
-    public static void countingSortByDigit(int[] array, int exp) {
-        int n = array.length;
+    /**
+     * Helper method for Radix Sort to sort elements by a specific digit.
+     *
+     * @param list the list to be sorted
+     * @param exp the digit's place value to sort by (1 for units, 10 for tens, etc.)
+     */
+    public static void countingSortByDigit(List<Integer> list, int exp) {
+        int n = list.size();
         int[] output = new int[n];
         int[] count = new int[10];
 
-        for (int value : array) {
+        for (int value : list) {
             int digit = (value / exp) % 10;
             count[digit]++;
         }
@@ -122,84 +144,76 @@ public class ManagerAlgorithms {
         }
 
         for (int i = n - 1; i >= 0; i--) {
-            int digit = (array[i] / exp) % 10;
-            output[count[digit] - 1] = array[i];
+            int digit = (list.get(i) / exp) % 10;
+            output[count[digit] - 1] = list.get(i);
             count[digit]--;
         }
 
         for (int i = 0; i < n; i++) {
-            array[i] = output[i];
+            list.set(i, output[i]);
         }
     }
 
-    // Compares sorted arrays with Collections.sort()
-    public static boolean isSortingCorrect(int[] arrayToCheck, int[] referenceArray) {
-        return Arrays.equals(arrayToCheck, referenceArray);
+    /**
+     * Compares a sorted list to a reference sorted list.
+     *
+     * @param listToCheck the sorted list to verify
+     * @param referenceList the reference sorted list
+     * @return true if the lists are identical, false otherwise
+     */
+    public static boolean isSortingCorrect(List<Integer> listToCheck, List<Integer> referenceList) {
+        return listToCheck.equals(referenceList);
     }
 
-    // Demonstrating Comparator with reverse order
-    static class ReverseComparator implements Comparator<Integer> {
-        @Override
-        public int compare(Integer a, Integer b) {
-            return b - a;
-        }
-    }
-
-    // Menu for running algorithms
+    /**
+     * Displays a menu for running sorting algorithms and measuring their performance.
+     */
     public static void runAlgorithmsMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("Enter the array size (from 1000 to 10000):");
+            System.out.println("\u001B[35mEnter the array size (from 1000 to 10000):\u001B[0m");
             int size;
             try {
                 size = scanner.nextInt();
                 if (size < 1000 || size > 10000) {
-                    System.out.println("Error: Please enter a number between 1000 and 10000.");
+                    System.err.println("Error: Please enter a number between 1000 and 10000.");
                     continue;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a numeric value.");
-                scanner.next(); // Clear invalid input
+                System.err.println("Error: Invalid input. Please enter a numeric value.");
+                scanner.next();
                 continue;
             }
 
-            int[] randomArray = generateRandomArray(size, -10000, 10000);
-
-            int[] referenceArray = randomArray.clone();
-            Arrays.sort(referenceArray);
+            List<Integer> randomList = generateRandomList(size, -10000, 10000);
+            List<Integer> referenceList = new ArrayList<>(randomList);
+            Collections.sort(referenceList);
 
             // Execution time and correctness check
             String[] algorithms = {"insertion", "heap", "shell", "radix"};
             String[] algorithmNames = {"Insertion Sort", "Heap Sort", "Shell Sort", "Radix Sort"};
 
             for (int i = 0; i < algorithms.length; i++) {
-                int[] arrayCopy = randomArray.clone();
-                long executionTime = measureExecutionTime(arrayCopy, algorithms[i]);
-                boolean isCorrect = isSortingCorrect(arrayCopy, referenceArray);
-                System.out.println(algorithmNames[i] + ": " + executionTime + " nanoseconds. Correct: " + isCorrect);
+                List<Integer> listCopy = new ArrayList<>(randomList);
+                long executionTime = measureExecutionTime(listCopy, algorithms[i]);
+                boolean isCorrect = isSortingCorrect(listCopy, referenceList);
+                String correctnessMessage = isCorrect ? "\u001B[32mCorrect - True\u001B[0m" : "\u001B[31mIncorrect\u001B[0m";
+                System.out.println(algorithmNames[i] + ": " + executionTime + " nanoseconds. " + correctnessMessage);
             }
 
             // Execution time for Collections.sort()
-            int[] arrayCopy = randomArray.clone();
-            long defaultSortTime = measureExecutionTime(arrayCopy, "default");
-            System.out.println("Collections.sort(): " + defaultSortTime + " nanoseconds. Correct: true (Reference)");
-
-            // Demonstrating reverse sorting with Comparator
-            List<Integer> list = new ArrayList<>();
-            for (int value : randomArray) {
-                list.add(value);
-            }
-            Collections.sort(list, new ReverseComparator());
-            System.out.println("Reverse order using Comparator: " + list.subList(0, Math.min(10, list.size())) + "...");
+            List<Integer> listCopy = new ArrayList<>(randomList);
+            long defaultSortTime = measureExecutionTime(listCopy, "default");
+            System.out.println("Collections.sort(): " + defaultSortTime + " nanoseconds. \u001B[32mCorrect - True\u001B[0m (Reference)");
 
             String choice;
             while (true) {
-                System.out.println("Do you want to try again? (Y/N)");
+                System.out.println("\u001B[35mDo you want to try again?\u001B[0m (Y/N)");
                 choice = scanner.next();
                 if (choice.equalsIgnoreCase("Y") || choice.equalsIgnoreCase("N")) {
                     break;
                 } else {
-                    System.out.println("Invalid input. Please enter Y or N.");
+                    System.err.println("Invalid input. Please enter Y or N.");
                 }
             }
 
