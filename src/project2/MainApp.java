@@ -11,7 +11,7 @@ public class MainApp {
 
     /**
      * The entry point of the application.
-     * Continuously prompts the user for login credentials and navigates them to the appropriate menu based on their role.
+     * Continuously requests login credentials from the user and directs them to the corresponding menu based on their assigned role.
      *
      * @param args command-line arguments (not used in this application).
      */
