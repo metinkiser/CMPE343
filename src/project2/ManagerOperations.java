@@ -198,7 +198,7 @@ public class ManagerOperations {
         String username;
         while (true) {
             System.out.print("Enter username: ");
-            username = scanner.nextLine().toLowerCase();
+            username = scanner.nextLine();
 
             if (!isUsernameUnique(username)) {
                 System.out.println("Username already exists. Please choose another one.");
@@ -330,7 +330,7 @@ public class ManagerOperations {
         String query = "SELECT COUNT(*) FROM employees WHERE LOWER(username) = ?";
         try (Connection connection = DatabaseUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, username.toLowerCase());
+            statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             return !resultSet.next() || resultSet.getInt(1) == 0;
         } catch (SQLException e) {
@@ -366,7 +366,7 @@ public class ManagerOperations {
         displayAllEmployees();
     	Scanner scanner = new Scanner(System.in);
         System.out.print("Enter employee username to fire: ");
-        String username = scanner.nextLine().toLowerCase();
+        String username = scanner.nextLine();
 
         if (isManagerByUsername(username)) {
             System.out.println("You cannot fire another manager or yourself.");
@@ -397,7 +397,7 @@ public class ManagerOperations {
         try (Connection connection = DatabaseUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, username.toLowerCase());
+            statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
                 return true;
@@ -418,7 +418,7 @@ public class ManagerOperations {
           displayAllEmployees();
 
     	    System.out.print("Enter the username of the employee to update: ");
-    	    String username = scanner.nextLine().toLowerCase();
+    	    String username = scanner.nextLine();
 
     	    if (!isUsernameExists(username)) {
     	        System.out.println("Employee not found.");
