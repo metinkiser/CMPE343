@@ -155,5 +155,3 @@ public class EmployeeOperations {
            return validateInput(scanner, prompt, regex, errorMessage, maxAttempts);
        }
    }
-
-                    
