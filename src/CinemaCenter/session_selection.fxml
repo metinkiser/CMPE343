@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="CinemaCenter.SessionSelectionController">
+    <Label text="Select Day, Session, and Hall" style="-fx-font-size: 24;" />
+    <TableView fx:id="sessionTable">
+        <columns>
+            <TableColumn text="Date" fx:id="dateColumn" />
+            <TableColumn text="Start Time" fx:id="startTimeColumn" />
+            <TableColumn text="Hall" fx:id="hallColumn" />
+            <TableColumn text="Vacant Seats" fx:id="vacantSeatsColumn" />
+        </columns>
+    </TableView>
+    <Button text="Next" onAction="#handleNext" />
+    <Button text="Back" onAction="#handleBack" />
+</VBox>
