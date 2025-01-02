@@ -1,0 +1,132 @@
+CREATE DATABASE CinemaCenter;
+USE CinemaCenter;
+
+CREATE TABLE Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(100) NOT NULL,
+    Role ENUM('Cashier', 'Admin', 'Manager') NOT NULL
+);
+
+CREATE TABLE Movies (
+    MovieID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(100) NOT NULL,
+    Genre VARCHAR(50),
+    Summary TEXT,
+    PosterPath VARCHAR(255)
+);
+
+CREATE TABLE Sessions (
+    SessionID INT AUTO_INCREMENT PRIMARY KEY,
+    MovieID INT NOT NULL,
+    Hall ENUM('Hall_A', 'Hall_B') NOT NULL,
+    SessionDate DATE NOT NULL,
+    StartTime TIME NOT NULL,
+    EndTime TIME NOT NULL,
+    VacantSeats INT NOT NULL,
+    FOREIGN KEY (MovieID) REFERENCES Movies(MovieID) ON DELETE CASCADE
+);
+
+CREATE TABLE Tickets (
+    TicketID INT AUTO_INCREMENT PRIMARY KEY,
+    SessionID INT NOT NULL,
+    SeatNumber VARCHAR(5) NOT NULL,movies
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    DiscountApplied BOOLEAN DEFAULT FALSE,
+    Price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (SessionID) REFERENCES Sessions(SessionID) ON DELETE CASCADE
+);
+
+CREATE TABLE Products (
+    ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    StockQuantity INT NOT NULL,
+    Category ENUM('Beverage', 'Snack', 'Toy') NOT NULL
+);
+
+CREATE TABLE Sales (
+    SaleID INT AUTO_INCREMENT PRIMARY KEY,
+    TicketID INT,
+    ProductID INT,
+    Quantity INT DEFAULT 1,
+    TotalPrice DECIMAL(10, 2) NOT NULL,
+    SaleDateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (TicketID) REFERENCES Tickets(TicketID) ON DELETE CASCADE,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
+);
+
+
+CREATE TABLE Customers (
+    CustomerID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Age INT
+);
+
+ALTER TABLE Tickets ADD COLUMN CustomerID INT;
+ALTER TABLE Tickets ADD FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID) ON DELETE SET NULL;
+
+INSERT INTO Users (Username, Password, Role)
+VALUES
+    ('cashier1', 'cashier1', 'Cashier'),
+    ('admin1', 'admin1', 'Admin'),
+    ('manager1', 'manager1', 'Manager');
+    
+INSERT INTO Movies (Title, Genre, Summary, PosterPath)
+VALUES
+    ('Recep İvedik', 'Comedy', 'A hilarious story of an eccentric man navigating through life\'s absurdities.', 'assets/moviePosters/recep_ivedik.jpg'),
+    ('Inception', 'Sci-Fi', 'A mind-bending thriller about dreams within dreams.', 'assets/moviePosters/inception.jpg'),
+    ('Titanic', 'Romance', 'A tragic love story set during the Titanic disaster.', 'assets/moviePosters/titanic.jpg'),
+    ('The Godfather', 'Crime', 'A powerful story about a mafia family.', 'assets/moviePosters/godfather.jpg'),
+    ('Toy Story', 'Animation', 'The adventures of toys that come to life.', 'assets/moviePosters/toy_story.jpg'),
+    ('The Dark Knight', 'Action', 'A superhero fights crime in Gotham City.', 'assets/moviePosters/dark_knight.jpg');
+    
+INSERT INTO Sessions (MovieID, Hall, SessionDate, StartTime, EndTime, VacantSeats)
+VALUES
+    (1, 'Hall_A', '2024-12-25', '10:00:00', '12:00:00', 50),
+    (1, 'Hall_B', '2024-12-25', '14:00:00', '16:00:00', 40),
+    (2, 'Hall_A', '2024-12-26', '10:00:00', '12:00:00', 60),
+    (3, 'Hall_B', '2024-12-26', '14:00:00', '16:00:00', 55),
+    (4, 'Hall_A', '2024-12-27', '10:00:00', '12:00:00', 30),
+    (5, 'Hall_B', '2024-12-27', '14:00:00', '16:00:00', 45);
+
+    
+INSERT INTO Products (Name, Price, StockQuantity, Category)
+VALUES
+    ('Coke', 2.50, 100, 'Beverage'),
+    ('Popcorn', 5.00, 50, 'Snack'),
+    ('Toy Car', 10.00, 30, 'Toy'),
+    ('Sprite', 2.50, 80, 'Beverage'),
+    ('Chips', 3.00, 60, 'Snack'),
+    ('Teddy Bear', 15.00, 20, 'Toy');
+
+    
+    INSERT INTO Tickets (SessionID, SeatNumber, FirstName, LastName, DiscountApplied, Price)
+VALUES
+    (1, 'A1', 'John', 'Doe', TRUE, 8.50),
+    (1, 'A2', 'Jane', 'Smith', FALSE, 10.00),
+    (2, 'B1', 'Alice', 'Johnson', FALSE, 12.00),
+    (2, 'B2', 'Bob', 'Brown', TRUE, 9.50),
+    (3, 'C1', 'Charlie', 'Davis', FALSE, 15.00),
+    (3, 'C2', 'Eve', 'White', TRUE, 7.50);
+
+    
+    INSERT INTO Sales (TicketID, ProductID, Quantity, TotalPrice)
+VALUES
+    (1, 1, 1, 2.50),
+    (1, 2, 1, 5.00),
+    (2, 3, 2, 20.00),
+    (3, 4, 1, 2.50),
+    (4, 5, 3, 9.00),
+    (5, 6, 1, 15.00);
+
+INSERT INTO Customers (FirstName, LastName, Age)
+VALUES
+    ('Ali', 'Yılmaz', 17),
+    ('Ayşe', 'Kara', 25),
+    ('Mehmet', 'Çelik', 34),
+    ('Zeynep', 'Ak', 65),
+    ('Ahmet', 'Demir', 45),
+    ('Fatma', 'Güneş', 20);
