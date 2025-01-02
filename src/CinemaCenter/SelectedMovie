@@ -1,0 +1,13 @@
+package CinemaCenter;
+
+public class SelectedMovie {
+    private static int movieID;
+
+    public static void setMovieID(int id) {
+        movieID = id;
+    }
+
+    public static int getMovieID() {
+        return movieID;
+    }
+}
