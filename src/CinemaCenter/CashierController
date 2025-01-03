@@ -1,0 +1,109 @@
+package CinemaCenter;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
+
+
+import java.util.List;
+
+public class CashierController {
+
+    @FXML
+    private ComboBox<String> genreComboBox;
+
+    @FXML
+    private TextField partialNameField;
+
+    @FXML
+    private TextField fullNameField;
+
+    @FXML
+    private ListView<Movie> moviesListView;
+
+    @FXML
+    private Label errorLabel;
+
+    @FXML
+    private Button confirmButton;
+
+    private Movie selectedMovie;
+
+    @FXML
+    public void initialize() {
+        // Populate ComboBox with genres
+        genreComboBox.getItems().addAll("Action", "Comedy", "Drama", "Sci-Fi", "Romance");
+
+        // Configure ListView to use custom cell factory
+        moviesListView.setCellFactory(param -> new ListCell<>() {
+            private final ImageView imageView = new ImageView();
+            private final Text title = new Text();
+            private final Text genre = new Text();
+            private final Text summary = new Text();
+            private final HBox content = new HBox(10, imageView, new VBox(title, genre, summary));
+
+            {
+                content.setSpacing(10);
+                imageView.setFitWidth(80);
+                imageView.setFitHeight(120);
+            }
+
+            @Override
+            protected void updateItem(Movie movie, boolean empty) {
+                super.updateItem(movie, empty);
+                if (empty || movie == null) {
+                    setGraphic(null);
+                } else {
+                    imageView.setImage(new Image(new java.io.File(movie.getPosterPath()).toURI().toString()));
+                    title.setText("Title: " + movie.getTitle());
+                    genre.setText("Genre: " + movie.getGenre());
+                    summary.setText("Summary: " + movie.getSummary());
+                    setGraphic(content);
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void onSearchButtonClick() {
+        // Get search criteria
+        String genre = genreComboBox.getValue();
+        String partialName = partialNameField.getText().trim();
+        String fullName = fullNameField.getText().trim();
+
+        // Clear previous results
+        moviesListView.getItems().clear();
+
+        // Perform search using MovieDAO
+        List<Movie> results = MovieDAO.searchMovies(genre, partialName, fullName);
+
+        if (results.isEmpty()) {
+            errorLabel.setText("No movies found.");
+        } else {
+            errorLabel.setText("");
+            moviesListView.getItems().addAll(results);
+        }
+    }
+
+    @FXML
+    public void onConfirmButtonClick() {
+        // Get the selected movie
+        selectedMovie = moviesListView.getSelectionModel().getSelectedItem();
+
+        if (selectedMovie == null) {
+            errorLabel.setText("Please select a movie to proceed.");
+        } else {
+            errorLabel.setText("");
+            System.out.println("Selected Movie: " + selectedMovie.getTitle());
+            // Proceed to the next stage with the selected movie
+        }
+    }
+
+    public Movie getSelectedMovie() {
+        return selectedMovie;
+    }
+}
