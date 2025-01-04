@@ -30,7 +30,7 @@ CREATE TABLE Sessions (
 CREATE TABLE Tickets (
     TicketID INT AUTO_INCREMENT PRIMARY KEY,
     SessionID INT NOT NULL,
-    SeatNumber VARCHAR(5) NOT NULL,movies
+    SeatNumber VARCHAR(5) NOT NULL,
     FirstName VARCHAR(50),
     LastName VARCHAR(50),
     DiscountApplied BOOLEAN DEFAULT FALSE,
@@ -65,6 +65,14 @@ CREATE TABLE Customers (
     Age INT
 );
 
+CREATE TABLE TicketPrices (
+    PriceID INT AUTO_INCREMENT PRIMARY KEY,
+    MovieID INT,
+    BasePrice DECIMAL(10, 2) NOT NULL,
+    DiscountedPrice DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (MovieID) REFERENCES Movies(MovieID) ON DELETE CASCADE
+);
+
 ALTER TABLE Tickets ADD COLUMN CustomerID INT;
 ALTER TABLE Tickets ADD FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID) ON DELETE SET NULL;
 
@@ -76,21 +84,21 @@ VALUES
     
 INSERT INTO Movies (Title, Genre, Summary, PosterPath)
 VALUES
-    ('Recep İvedik', 'Comedy', 'A hilarious story of an eccentric man navigating through life\'s absurdities.', 'assets/moviePosters/recep_ivedik.jpg'),
-    ('Inception', 'Sci-Fi', 'A mind-bending thriller about dreams within dreams.', 'assets/moviePosters/inception.jpg'),
-    ('Titanic', 'Romance', 'A tragic love story set during the Titanic disaster.', 'assets/moviePosters/titanic.jpg'),
-    ('The Godfather', 'Crime', 'A powerful story about a mafia family.', 'assets/moviePosters/godfather.jpg'),
-    ('Toy Story', 'Animation', 'The adventures of toys that come to life.', 'assets/moviePosters/toy_story.jpg'),
-    ('The Dark Knight', 'Action', 'A superhero fights crime in Gotham City.', 'assets/moviePosters/dark_knight.jpg');
+    ('Recep İvedik', 'Comedy', 'A hilarious story of an eccentric man navigating through life\'s absurdities.', 'C:/moviePosters/recep_ivedik.jpg'),
+    ('Inception', 'Sci-Fi', 'A mind-bending thriller about dreams within dreams.', 'C:/moviePosters/inception.jpg'),
+    ('Titanic', 'Romance', 'A tragic love story set during the Titanic disaster.', 'C:/moviePosters/titanic.jpg'),
+    ('The Godfather', 'Crime', 'A powerful story about a mafia family.', 'C:/moviePosters/godfather.jpg'),
+    ('Toy Story', 'Animation', 'The adventures of toys that come to life.', 'C:/moviePosters/toy_story.jpg'),
+    ('The Dark Knight', 'Action', 'A superhero fights crime in Gotham City.', 'C:/moviePosters/batman.jpg');
     
 INSERT INTO Sessions (MovieID, Hall, SessionDate, StartTime, EndTime, VacantSeats)
 VALUES
-    (1, 'Hall_A', '2024-12-25', '10:00:00', '12:00:00', 50),
-    (1, 'Hall_B', '2024-12-25', '14:00:00', '16:00:00', 40),
-    (2, 'Hall_A', '2024-12-26', '10:00:00', '12:00:00', 60),
-    (3, 'Hall_B', '2024-12-26', '14:00:00', '16:00:00', 55),
-    (4, 'Hall_A', '2024-12-27', '10:00:00', '12:00:00', 30),
-    (5, 'Hall_B', '2024-12-27', '14:00:00', '16:00:00', 45);
+    (1, 'Hall_A', '2024-12-25', '10:00:00', '12:00:00', 16),
+    (1, 'Hall_B', '2024-12-25', '14:00:00', '16:00:00', 48),
+    (2, 'Hall_A', '2024-12-26', '10:00:00', '12:00:00', 16),
+    (3, 'Hall_B', '2024-12-26', '14:00:00', '16:00:00', 48),
+    (4, 'Hall_A', '2024-12-27', '10:00:00', '12:00:00', 16),
+    (5, 'Hall_B', '2024-12-27', '14:00:00', '16:00:00', 48);
 
     
 INSERT INTO Products (Name, Price, StockQuantity, Category)
@@ -111,6 +119,15 @@ VALUES
     (2, 'B2', 'Bob', 'Brown', TRUE, 9.50),
     (3, 'C1', 'Charlie', 'Davis', FALSE, 15.00),
     (3, 'C2', 'Eve', 'White', TRUE, 7.50);
+    
+    INSERT INTO TicketPrices (MovieID, BasePrice, DiscountedPrice)
+VALUES 
+    (1, 15.00, 12.00),  -- Recep İvedik
+    (2, 18.00, 15.00),  -- Inception
+    (3, 18.00, 15.00),  -- Titanic
+    (4, 18.00, 15.00),  -- The Godfather
+    (5, 15.00, 12.00),  -- Toy Story
+    (6, 18.00, 15.00);  -- The Dark Knight
 
     
     INSERT INTO Sales (TicketID, ProductID, Quantity, TotalPrice)
@@ -130,3 +147,120 @@ VALUES
     ('Zeynep', 'Ak', 65),
     ('Ahmet', 'Demir', 45),
     ('Fatma', 'Güneş', 20);
+
+CREATE TABLE Seats (
+    SeatID INT AUTO_INCREMENT PRIMARY KEY,
+    HallID ENUM('Hall_A', 'Hall_B') NOT NULL,
+    SeatNumber VARCHAR(5) NOT NULL,
+    SeatRow CHAR(1) NOT NULL,
+    SeatColumn INT NOT NULL,
+    UNIQUE KEY unique_seat (HallID, SeatNumber)
+);
+
+INSERT INTO Seats (HallID, SeatNumber, SeatRow, SeatColumn)
+VALUES 
+    ('Hall_A', 'A1', 'A', 1),
+    ('Hall_A', 'A2', 'A', 2),
+    ('Hall_A', 'A3', 'A', 3),
+    ('Hall_A', 'A4', 'A', 4),
+    ('Hall_A', 'B1', 'B', 1),
+    ('Hall_A', 'B2', 'B', 2),
+    ('Hall_A', 'B3', 'B', 3),
+    ('Hall_A', 'B4', 'B', 4),
+    ('Hall_A', 'C1', 'C', 1),
+    ('Hall_A', 'C2', 'C', 2),
+    ('Hall_A', 'C3', 'C', 3),
+    ('Hall_A', 'C4', 'C', 4),
+    ('Hall_A', 'D1', 'D', 1),
+    ('Hall_A', 'D2', 'D', 2),
+    ('Hall_A', 'D3', 'D', 3),
+    ('Hall_A', 'D4', 'D', 4);
+    
+    INSERT INTO Sessions (MovieID, Hall, SessionDate, StartTime, EndTime, VacantSeats)
+VALUES
+    -- Recep İvedik seansları
+    (1, 'Hall_A', '2024-12-26', '13:00:00', '15:00:00', 16),
+    (1, 'Hall_B', '2024-12-27', '16:30:00', '18:30:00', 48),
+    (1, 'Hall_A', '2024-12-28', '19:00:00', '21:00:00', 16),
+    
+    -- Inception seansları
+    (2, 'Hall_B', '2024-12-25', '17:00:00', '19:30:00', 48),
+    (2, 'Hall_A', '2024-12-27', '14:00:00', '16:30:00', 16),
+    (2, 'Hall_B', '2024-12-28', '20:00:00', '22:30:00', 48),
+    
+    -- Titanic seansları
+    (3, 'Hall_A', '2024-12-25', '15:00:00', '18:00:00', 16),
+    (3, 'Hall_B', '2024-12-27', '19:00:00', '22:00:00', 48),
+    (3, 'Hall_A', '2024-12-28', '13:00:00', '16:00:00', 16),
+    
+    -- The Godfather seansları
+    (4, 'Hall_B', '2024-12-25', '20:00:00', '23:00:00', 48),
+    (4, 'Hall_A', '2024-12-26', '16:00:00', '19:00:00', 16),
+    (4, 'Hall_B', '2024-12-28', '14:00:00', '17:00:00', 48),
+    
+    -- Toy Story seansları
+    (5, 'Hall_A', '2024-12-25', '11:00:00', '13:00:00', 16),
+    (5, 'Hall_B', '2024-12-26', '10:00:00', '12:00:00', 48),
+    (5, 'Hall_A', '2024-12-27', '11:30:00', '13:30:00', 16),
+    
+    -- The Dark Knight seansları
+    (6, 'Hall_B', '2024-12-25', '21:00:00', '23:30:00', 48),
+    (6, 'Hall_A', '2024-12-26', '19:30:00', '22:00:00', 16),
+    (6, 'Hall_B', '2024-12-27', '21:30:00', '24:00:00', 48);
+    
+INSERT INTO Seats (HallID, SeatNumber, SeatRow, SeatColumn)
+VALUES 
+    ('Hall_B', 'A1', 'A', 1), ('Hall_B', 'A2', 'A', 2), ('Hall_B', 'A3', 'A', 3), ('Hall_B', 'A4', 'A', 4), ('Hall_B', 'A5', 'A', 5), ('Hall_B', 'A6', 'A', 6), ('Hall_B', 'A7', 'A', 7), ('Hall_B', 'A8', 'A', 8),
+    ('Hall_B', 'B1', 'B', 1), ('Hall_B', 'B2', 'B', 2), ('Hall_B', 'B3', 'B', 3), ('Hall_B', 'B4', 'B', 4), ('Hall_B', 'B5', 'B', 5), ('Hall_B', 'B6', 'B', 6), ('Hall_B', 'B7', 'B', 7), ('Hall_B', 'B8', 'B', 8),
+    ('Hall_B', 'C1', 'C', 1), ('Hall_B', 'C2', 'C', 2), ('Hall_B', 'C3', 'C', 3), ('Hall_B', 'C4', 'C', 4), ('Hall_B', 'C5', 'C', 5), ('Hall_B', 'C6', 'C', 6), ('Hall_B', 'C7', 'C', 7), ('Hall_B', 'C8', 'C', 8),
+    ('Hall_B', 'D1', 'D', 1), ('Hall_B', 'D2', 'D', 2), ('Hall_B', 'D3', 'D', 3), ('Hall_B', 'D4', 'D', 4), ('Hall_B', 'D5', 'D', 5), ('Hall_B', 'D6', 'D', 6), ('Hall_B', 'D7', 'D', 7), ('Hall_B', 'D8', 'D', 8),
+    ('Hall_B', 'E1', 'E', 1), ('Hall_B', 'E2', 'E', 2), ('Hall_B', 'E3', 'E', 3), ('Hall_B', 'E4', 'E', 4), ('Hall_B', 'E5', 'E', 5), ('Hall_B', 'E6', 'E', 6), ('Hall_B', 'E7', 'E', 7), ('Hall_B', 'E8', 'E', 8),
+    ('Hall_B', 'F1', 'F', 1), ('Hall_B', 'F2', 'F', 2), ('Hall_B', 'F3', 'F', 3), ('Hall_B', 'F4', 'F', 4), ('Hall_B', 'F5', 'F', 5), ('Hall_B', 'F6', 'F', 6), ('Hall_B', 'F7', 'F', 7), ('Hall_B', 'F8', 'F', 8);
+
+ALTER TABLE Tickets ADD COLUMN SeatID INT;
+ALTER TABLE Tickets ADD FOREIGN KEY (SeatID) REFERENCES Seats(SeatID) ON DELETE CASCADE;
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE Tickets t
+JOIN Seats s ON t.SeatNumber = s.SeatNumber
+JOIN Sessions sess ON t.SessionID = sess.SessionID
+SET t.SeatID = s.SeatID
+WHERE s.HallID = sess.Hall;
+
+SET SQL_SAFE_UPDATES = 1;
+
+-- Vergi oranları için yeni tablo
+CREATE TABLE TaxRates (
+    TaxID INT AUTO_INCREMENT PRIMARY KEY,
+    TaxType VARCHAR(50) NOT NULL,
+    Rate DECIMAL(5, 2) NOT NULL,
+    UNIQUE KEY unique_type (TaxType)
+);
+
+-- Varsayılan vergi oranlarını ekleyelim
+INSERT INTO TaxRates (TaxType, Rate) VALUES 
+    ('MovieTicket', 8.00),  -- %8 KDV
+    ('Food', 8.00),         -- %8 KDV
+    ('Beverage', 8.00),     -- %8 KDV
+    ('Other', 18.00);       -- %18 KDV
+
+-- Sales tablosuna vergi kolonları ekleyelim (tek ALTER TABLE ifadesi ile)
+ALTER TABLE Sales 
+    ADD COLUMN TaxAmount DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    ADD COLUMN SubTotal DECIMAL(10, 2) NOT NULL DEFAULT 0.00;
+
+-- Tickets tablosuna yaş indirimi kolonu ekleyelim
+ALTER TABLE Tickets 
+    ADD COLUMN AgeDiscountApplied BOOLEAN DEFAULT FALSE;
+
+-- Güvenli modu geçici olarak kapat
+SET SQL_SAFE_UPDATES = 0;
+
+-- Mevcut kayıtlar için SubTotal ve TaxAmount değerlerini güncelleyelim
+UPDATE Sales SET 
+    SubTotal = TotalPrice,
+    TaxAmount = TotalPrice * 0.08;
+
+-- Güvenli modu tekrar aç
+SET SQL_SAFE_UPDATES = 1;
