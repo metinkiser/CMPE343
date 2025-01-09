@@ -1,12 +1,14 @@
- package CinemaCenter;
+package CinemaCenter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie2DAO {
+public class AdminDAO {
 
     /** ✅ Filmleri veritabanında arayan metod */
     public static List<Movie> searchMovies(String genre, String partialName, String fullName) {
@@ -83,17 +85,16 @@ public class Movie2DAO {
     }
 
     /** ✅ Film güncelleme */
-    public static boolean updateMovie(int movieId, String newTitle, String newGenre, String newSummary, String newPosterPath) {
-        String query = "UPDATE Movies SET Title = COALESCE(?, Title), Genre = COALESCE(?, Genre), Summary = COALESCE(?, Summary), PosterPath = COALESCE(?, PosterPath) WHERE MovieID = ?";
+    public static boolean updateMovie(String movieTitle, String newGenre, String newSummary, String newPoster) {
+        String query = "UPDATE Movies SET Genre = ?, Summary = ?, PosterPath = ? WHERE Title = ?";
         
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             
-            stmt.setString(1, newTitle);
-            stmt.setString(2, newGenre);
-            stmt.setString(3, newSummary);
-            stmt.setString(4, newPosterPath);
-            stmt.setInt(5, movieId);
+            stmt.setString(1, newGenre);
+            stmt.setString(2, newSummary);
+            stmt.setString(3, newPoster);
+            stmt.setString(4, movieTitle);
 
             int affectedRows = stmt.executeUpdate();
             return affectedRows > 0;
@@ -102,6 +103,7 @@ public class Movie2DAO {
             return false;
         }
     }
+
 
     /** ✅ Film var mı kontrolü */
     public static boolean movieExists(String title) {
@@ -144,4 +146,44 @@ public class Movie2DAO {
         }
         return null; // Film bulunamazsa null döndür
     }
+
+    public static boolean addSession(int movieId, LocalDate sessionDate, String hall, LocalTime startTime, LocalTime endTime, int vacantSeats) {
+        String query = "INSERT INTO Sessions (MovieID, Hall, SessionDate, StartTime, EndTime, VacantSeats) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, movieId);
+            stmt.setString(2, hall);
+            stmt.setDate(3, java.sql.Date.valueOf(sessionDate));
+            stmt.setTime(4, java.sql.Time.valueOf(startTime));
+            stmt.setTime(5, java.sql.Time.valueOf(endTime));
+            stmt.setInt(6, vacantSeats);
+
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static int getMovieIdByTitle(String title) {
+        String query = "SELECT MovieID FROM Movies WHERE Title = ?";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setString(1, title);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("MovieID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1; // Eğer film bulunamazsa -1 döndür
+    }
+
+
 }
