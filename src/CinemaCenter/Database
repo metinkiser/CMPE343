@@ -1,4 +1,4 @@
-CREATE DATABASE CinemaCenter;
+create DATABASE CinemaCenter;
 USE CinemaCenter;
 
 CREATE TABLE Users (
@@ -75,6 +75,24 @@ CREATE TABLE TicketPrices (
 
 ALTER TABLE Tickets ADD COLUMN CustomerID INT;
 ALTER TABLE Tickets ADD FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID) ON DELETE SET NULL;
+
+ALTER TABLE Users 
+  ADD COLUMN FirstName VARCHAR(50) AFTER UserID,
+  ADD COLUMN LastName VARCHAR(50) AFTER FirstName;
+  
+UPDATE Users 
+SET FirstName='Ali', LastName='Veli' 
+WHERE Username='manager1';
+
+UPDATE Users 
+SET FirstName='Ayşe', LastName='Demir' 
+WHERE Username='cashier1';
+
+ALTER TABLE TicketPrices 
+  ADD COLUMN AgeDiscountRate DECIMAL(5,2) NOT NULL DEFAULT 0.20;
+
+
+
 
 INSERT INTO Users (Username, Password, Role)
 VALUES
@@ -220,6 +238,8 @@ VALUES
 ALTER TABLE Tickets ADD COLUMN SeatID INT;
 ALTER TABLE Tickets ADD FOREIGN KEY (SeatID) REFERENCES Seats(SeatID) ON DELETE CASCADE;
 
+
+
 SET SQL_SAFE_UPDATES = 0;
 
 UPDATE Tickets t
@@ -264,3 +284,30 @@ UPDATE Sales SET
 
 -- Güvenli modu tekrar aç
 SET SQL_SAFE_UPDATES = 1;
+
+-- Tickets tablosunda HasDiscount sütununu ekleyelim
+ALTER TABLE Tickets 
+    ADD COLUMN HasDiscount BOOLEAN DEFAULT FALSE;
+
+-- Sales tablosuna InvoicePath sütununu ekleyelim (fatura PDF'lerinin yolunu saklamak için)
+ALTER TABLE Sales 
+    ADD COLUMN InvoicePath VARCHAR(255);
+
+CREATE TABLE Invoices (
+    InvoiceID INT AUTO_INCREMENT PRIMARY KEY,
+    CustomerID INT,
+    SaleDateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TotalAmount DECIMAL(10, 2) NOT NULL,
+    SubTotal DECIMAL(10, 2) NOT NULL,
+    TaxAmount DECIMAL(10, 2) NOT NULL,
+    InvoicePath VARCHAR(255) NOT NULL,
+    InvoiceContent LONGBLOB,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+
+
+ALTER TABLE Invoices ADD COLUMN PaymentMethod VARCHAR(20) DEFAULT 'Cash';
+ALTER TABLE Invoices ADD COLUMN InvoiceNumber VARCHAR(50) UNIQUE;
+ALTER TABLE Invoices ADD COLUMN CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
