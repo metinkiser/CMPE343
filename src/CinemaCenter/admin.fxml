@@ -2,30 +2,180 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="CinemaCenter.AdminController">
-   <children>
-      <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="600.0" prefWidth="700.0">
-         <children>
-            <HBox layoutX="140.0" layoutY="30.0" spacing="10.0" prefHeight="50.0" prefWidth="400.0">
-               <children>
-                  <Label text="Admin İşlemleri:" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-                  <ComboBox fx:id="adminActionComboBox" onAction="#handleAdminAction" prefWidth="200.0" />
-               </children>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="CinemaCenter.adminController"
+            prefWidth="900" prefHeight="600">
+
+    <!-- ToggleGroup'u burada tanımlıyoruz -->
+    <fx:define>
+        <ToggleGroup fx:id="movieToggleGroup" />
+    </fx:define>
+
+    <children>
+        <VBox spacing="10" alignment="TOP_CENTER" prefWidth="900" prefHeight="600">
+
+            <!-- Title Header -->
+            <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #eaeaea; -fx-padding: 15;">
+                <Label text="Cinema Center - Admin Panel" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
             </HBox>
 
-            <!-- Seans Yönetimi İçin Form Alanı -->
-            <VBox fx:id="contentArea" layoutX="140.0" layoutY="100.0" spacing="10.0"
-                  prefHeight="350.0" prefWidth="420.0" style="-fx-padding: 15; -fx-border-color: #ccc; -fx-border-width: 1px;">
-            </VBox>
+            <!-- Main Tabs -->
+            <TabPane fx:id="adminTabPane" prefWidth="800" prefHeight="400">
 
-            <Button fx:id="saveButton" layoutX="280.0" layoutY="480.0"
-                    mnemonicParsing="false" onAction="#handleSave"
-                    prefHeight="35.0" prefWidth="140.0" text="Kaydet"
-                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
-         </children>
-      </AnchorPane>
-   </children>
+                <!-- MOVIE OPERATIONS TAB -->
+                <Tab text="Movie Operations">
+                    <AnchorPane>
+                        <VBox spacing="15" style="-fx-padding: 15;">
+                            <!-- Toggle for Add/Update -->
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <RadioButton fx:id="rbAddMovie"
+                                             text="Add New Movie"
+                                             toggleGroup="${movieToggleGroup}"
+                                             selected="true"/>
+                                <RadioButton fx:id="rbUpdateMovie"
+                                             text="Update Movie Field"
+                                             toggleGroup="${movieToggleGroup}"/>
+                            </HBox>
+
+                            <!-- Add Movie Section -->
+                            <VBox fx:id="vboxAddMovie" spacing="10" visible="true" managed="true">
+                                <Label text="Add New Movie" style="-fx-font-size: 15px; -fx-font-weight: bold;" />
+
+                                <GridPane hgap="10" vgap="10">
+                                    <Label text="Title:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="titleField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                    <Label text="Genre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                    <ComboBox fx:id="genreComboBox" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                    <Label text="Summary:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                    <TextArea fx:id="summaryField" GridPane.rowIndex="2" GridPane.columnIndex="1" prefRowCount="2"/>
+
+                                    <Label text="Poster File Name (e.g. batman):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="posterPathField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                </GridPane>
+
+                                <Button fx:id="saveNewMovieButton"
+                                        text="Add Movie"
+                                        onAction="#saveNewMovieAction"
+                                        style="-fx-font-weight: bold;"/>
+                            </VBox>
+
+                            <!-- Update Movie Section -->
+                            <VBox fx:id="vboxUpdateMovie" spacing="10" visible="false" managed="false">
+                                <Label text="Update Movie Field" style="-fx-font-size: 15px; -fx-font-weight: bold;" />
+
+                                <GridPane hgap="10" vgap="10">
+                                    <Label text="Movie Title to Update:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="updateMovieTitleField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                    <Label text="Field to Update:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                    <ComboBox fx:id="updateFieldComboBox" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                    <Label fx:id="newValueLabel" text="New Value:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="updateFieldValue" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                    <ComboBox fx:id="genreUpdateComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                                              prefWidth="150" visible="false"/>
+                                </GridPane>
+
+                                <Button fx:id="updateMovieButton"
+                                        text="Update Movie"
+                                        onAction="#updateMovieAction"
+                                        style="-fx-font-weight: bold;"/>
+                            </VBox>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+
+                <!-- SESSION MANAGEMENT TAB -->
+                <Tab text="Session Management">
+                    <AnchorPane>
+                        <VBox spacing="10" style="-fx-padding: 15;">
+
+                            <!-- Üst kısımda butonlar -->
+                            <HBox spacing="10">
+                                <Button fx:id="addSessionButton"
+                                        text="Add New Session"
+                                        onAction="#showAddSessionPopup"
+                                        style="-fx-font-weight: bold;"/>
+                                <Button fx:id="updateSessionButton"
+                                        text="Update Selected Session"
+                                        onAction="#showUpdateSessionPopup"
+                                        style="-fx-font-weight: bold;"/>
+                                <Button fx:id="deleteSessionButton"
+                                        text="Delete Selected Session"
+                                        onAction="#deleteSessionAction"
+                                        style="-fx-font-weight: bold; -fx-text-fill: red;"/>
+                            </HBox>
+
+                            <Label text="Session Management" style="-fx-font-size: 15px; -fx-font-weight: bold;" />
+
+                            <HBox spacing="10">
+                                <Label text="Movie Title:" />
+                                <TextField fx:id="sessionMovieTitleField" prefWidth="200"/>
+                                <Button text="Load Sessions" onAction="#loadSessionsForMovieAction"/>
+                            </HBox>
+
+                            <TableView fx:id="sessionTable" prefHeight="270" prefWidth="650">
+                                <columns>
+                                    <TableColumn fx:id="sessionIdColumn" text="Session ID" prefWidth="80"/>
+                                    <TableColumn fx:id="hallColumn" text="Hall" prefWidth="100"/>
+                                    <TableColumn fx:id="dateColumn" text="Date" prefWidth="120"/>
+                                    <TableColumn fx:id="startTimeColumn" text="Start" prefWidth="100"/>
+                                    <TableColumn fx:id="endTimeColumn" text="End" prefWidth="100"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+
+                <!-- CANCELLATION & REFUND TAB -->
+                <Tab text="Cancellation &amp; Refund">
+                    <AnchorPane>
+                        <VBox spacing="15" style="-fx-padding: 15;">
+                            <Label text="Cancellation &amp; Refund" style="-fx-font-size: 15px; -fx-font-weight: bold;" />
+
+                            <HBox spacing="10">
+                                <Label text="Choose Type:"/>
+                                <ComboBox fx:id="cancelTypeComboBox" prefWidth="150"/>
+                            </HBox>
+
+                            <HBox spacing="10" visible="false" managed="false" fx:id="productCancelBox">
+                                <Label text="Select Product:"/>
+                                <ComboBox fx:id="productComboBox" prefWidth="150"/>
+                                <Label text="Quantity:"/>
+                                <TextField fx:id="productQtyField" prefWidth="50"/>
+                            </HBox>
+
+                            <HBox spacing="10" visible="false" managed="false" fx:id="ticketCancelBox">
+                                <Label text="Ticket ID:"/>
+                                <TextField fx:id="ticketIdField" prefWidth="100"/>
+                            </HBox>
+
+                            <Button fx:id="cancelProcessButton"
+                                    text="Process Cancellation"
+                                    onAction="#processCancellationAction"
+                                    style="-fx-font-weight: bold;"/>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+
+                <!-- LOG OUT TAB -->
+                <Tab text="Log Out">
+                    <AnchorPane>
+                        <VBox alignment="CENTER" spacing="20" style="-fx-padding: 15;">
+                            <Label text="Are you sure you want to log out?" style="-fx-font-size: 16px;"/>
+                            <Button text="Log Out" onAction="#handleLogout" style="-fx-font-weight: bold;"/>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+            </TabPane>
+        </VBox>
+    </children>
 </AnchorPane>
