@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cinemaCenter.ticketCancellationController"
+            prefWidth="300" prefHeight="200">
+    <children>
+        <VBox alignment="CENTER" spacing="15" style="-fx-padding: 20;">
+            <Label text="Cancel Ticket"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            
+            <HBox spacing="10">
+                <Label text="Ticket ID:"/>
+                <TextField fx:id="ticketIdField" prefWidth="100"/>
+            </HBox>
+
+            <Button text="Cancel Ticket"
+                    onAction="#processTicketCancellation"
+                    style="-fx-font-weight: bold; -fx-text-fill: red;"/>
+        </VBox>
+    </children>
+</AnchorPane>
