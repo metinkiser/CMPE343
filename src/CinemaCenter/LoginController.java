@@ -47,6 +47,11 @@ public class LoginController {
                 case "Cashier":
                     loadCashierOperationsScreen();
                     break;
+
+                case "Admin":
+                    loadAdminOperationsScreen();
+                    break;
+                    
                 case "Manager":
                     loadManagerOperationsScreen(); // YENİ
                     break;
@@ -76,6 +81,23 @@ public class LoginController {
             errorLabel.setText("Cashier Operations ekranı yüklenirken hata oluştu.");
         }
     }
+
+        private void loadAdminOperationsScreen() {
+        try {
+            // Load Admin Operations screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CinemaCenter/admin.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Get current stage and set the new scene
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Admin Operations");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            errorLabel.setText("Admin Operations ekranı yüklenirken hata oluştu.");
+        }
+    }
     
     private void loadManagerOperationsScreen() {
         try {
@@ -102,6 +124,5 @@ public class LoginController {
             errorLabel.setText("Manager Operations ekranı yüklenirken hata oluştu.");
         }
     }
-    
     
 }
