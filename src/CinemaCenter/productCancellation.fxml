@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="CinemaCenter.productCancellationController"
+            prefWidth="350" prefHeight="250">
+    <children>
+        <VBox alignment="CENTER" spacing="15" style="-fx-padding: 20;">
+            <Label text="Cancel Product"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Product:"/>
+                <ComboBox fx:id="productComboBox" prefWidth="120" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Quantity:"/>
+                <TextField fx:id="productQtyField" prefWidth="60"
+                           onKeyReleased="#updateRefundAmount"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Refund Amount:"/>
+                <Label fx:id="lblRefundAmount" text="0.00" style="-fx-font-weight: bold;"/>
+            </HBox>
+
+            <Button text="Cancel Product"
+                    onAction="#processProductCancellation"
+                    style="-fx-font-weight: bold; -fx-text-fill: red;"/>
+        </VBox>
+    </children>
+</AnchorPane>
