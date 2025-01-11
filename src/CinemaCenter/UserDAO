@@ -21,4 +21,20 @@ public class UserDAO {
         }
         return role;
     }
+
+    public static int getUserId(String username, String password) {
+        String query = "SELECT UserID FROM Users WHERE Username = ? AND Password = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("UserID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }
