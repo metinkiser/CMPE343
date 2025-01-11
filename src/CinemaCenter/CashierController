@@ -2,14 +2,21 @@ package CinemaCenter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.layout.VBox;
-
-
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
+import java.sql.*;
+import java.net.URL;
+import java.io.File;
 
 public class CashierController {
 
@@ -35,10 +42,10 @@ public class CashierController {
 
     @FXML
     public void initialize() {
-        // Populate ComboBox with genres
-        genreComboBox.getItems().addAll("Action", "Comedy", "Drama", "Sci-Fi", "Romance");
+        // DÜZENLENDİ: Genre ComboBox'ı veritabanından dolduralım + en başa "All categories"
+        loadGenresDynamically();
 
-        // Configure ListView to use custom cell factory
+        // Configure ListView
         moviesListView.setCellFactory(param -> new ListCell<>() {
             private final ImageView imageView = new ImageView();
             private final Text title = new Text();
@@ -58,7 +65,7 @@ public class CashierController {
                 if (empty || movie == null) {
                     setGraphic(null);
                 } else {
-                    imageView.setImage(new Image(new java.io.File(movie.getPosterPath()).toURI().toString()));
+                    imageView.setImage(new Image(new File(movie.getPosterPath()).toURI().toString()));
                     title.setText("Title: " + movie.getTitle());
                     genre.setText("Genre: " + movie.getGenre());
                     summary.setText("Summary: " + movie.getSummary());
@@ -68,6 +75,25 @@ public class CashierController {
         });
     }
 
+    // EKLENDİ: Veritabanından DISTINCT Genre al, listeye ekle + "All categories" en başta.
+    private void loadGenresDynamically() {
+        List<String> genres = new ArrayList<>();
+        genres.add("All categories"); // en başa ekle
+
+        try (Connection conn = DBUtil.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery("SELECT DISTINCT Genre FROM Movies WHERE Genre IS NOT NULL AND Genre<>''")) {
+            while (rs.next()) {
+                genres.add(rs.getString("Genre"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        genreComboBox.getItems().clear();
+        genreComboBox.getItems().addAll(genres);
+    }
+
     @FXML
     public void onSearchButtonClick() {
         // Get search criteria
@@ -75,10 +101,14 @@ public class CashierController {
         String partialName = partialNameField.getText().trim();
         String fullName = fullNameField.getText().trim();
 
-        // Clear previous results
+        // "All categories" seçiliyse genre=null yapalım
+        if ("All categories".equalsIgnoreCase(genre)) {
+            genre = null;
+        }
+
         moviesListView.getItems().clear();
 
-        // Perform search using MovieDAO
+        // searchMovies(genre, partialName, fullName)
         List<Movie> results = MovieDAO.searchMovies(genre, partialName, fullName);
 
         if (results.isEmpty()) {
@@ -89,17 +119,67 @@ public class CashierController {
         }
     }
 
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     @FXML
     public void onConfirmButtonClick() {
-        // Get the selected movie
         selectedMovie = moviesListView.getSelectionModel().getSelectedItem();
-
         if (selectedMovie == null) {
-            errorLabel.setText("Please select a movie to proceed.");
-        } else {
-            errorLabel.setText("");
-            System.out.println("Selected Movie: " + selectedMovie.getTitle());
-            // Proceed to the next stage with the selected movie
+            showAlert("Error", "Please select a movie to proceed.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = null;
+            String[] possiblePaths = {
+                "/CinemaCenter/SelectSession.fxml"
+            };
+
+            for (String path : possiblePaths) {
+                System.out.println("Trying to load FXML from: " + path);
+                URL resource = getClass().getResource(path);
+                if (resource != null) {
+                    loader = new FXMLLoader(resource);
+                    break;
+                }
+            }
+
+            if (loader == null) {
+                // Manuel arama
+                File file = new File("src/CinemaCenter/SelectSession.fxml");
+                if (file.exists()) {
+                    System.out.println("Found FXML file at: " + file.getAbsolutePath());
+                    loader = new FXMLLoader(file.toURI().toURL());
+                } else {
+                    throw new IOException("Could not find SelectSession.fxml in any location");
+                }
+            }
+
+            Parent root = loader.load();
+            SessionSelectionController controller = loader.getController();
+            if (controller == null) {
+                throw new IOException("Could not load SessionSelectionController");
+            }
+
+            controller.setSelectedMovie(selectedMovie);
+
+            Stage stage = new Stage();
+            stage.setTitle("Session Selection - " + selectedMovie.getTitle());
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            ((Stage) confirmButton.getScene().getWindow()).close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error details: " + e.getMessage());
+            showAlert("Error", "Could not load session selection screen. Please check the logs.");
         }
     }
 
