@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<TabPane xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="CinemaCenter.ManagerController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <Tab text="Products &amp; Stock">
+        <VBox spacing="10" fx:id="productsTabPane" />
+    </Tab>
+
+    <Tab text="Personnel">
+        <VBox spacing="10" fx:id="personnelTabPane" />
+    </Tab>
+
+    <Tab text="Ticket Prices &amp; Discount">
+        <VBox spacing="10" fx:id="ticketPricesTabPane" />
+    </Tab>
+
+    <Tab text="Revenue &amp; Tax">
+        <VBox spacing="10" fx:id="revenueTabPane" />
+    </Tab>
+</TabPane>
