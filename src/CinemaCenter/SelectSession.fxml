@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="CinemaCenter.SessionSelectionController">
+    <!-- Film Details -->
+    <top>
+        <HBox spacing="10" style="-fx-padding: 10;">
+            <ImageView fx:id="posterImageView" fitWidth="100" fitHeight="150"/>
+            <VBox spacing="5">
+                <Label fx:id="titleLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <Label fx:id="genreLabel" style="-fx-font-size: 14px;"/>
+                <Label fx:id="summaryLabel" wrapText="true"/>
+            </VBox>
+        </HBox>
+    </top>
+
+    <!-- Session Selection -->
+    <center>
+    <VBox spacing="10" style="-fx-padding: 10;">
+        <TableView fx:id="sessionTableView">
+            <columns>
+                <TableColumn fx:id="dateColumn" text="Tarih" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="date"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="hallColumn" text="Salon" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="hall"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="startTimeColumn" text="Başlangıç" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="startTime"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="endTimeColumn" text="Bitiş" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="endTime"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="vacantSeatsColumn" text="Boş Koltuk" prefWidth="100">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="vacantSeats"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </VBox>
+</center>
+
+
+    <!-- Navigation Buttons -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+            <Button fx:id="backButton" text="Back" onAction="#onBackButtonClick"/>
+            <Button fx:id="nextButton" text="Next" onAction="#onNextButtonClick" disable="true"/>
+        </HBox>
+    </bottom>
+</BorderPane>
