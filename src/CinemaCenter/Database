@@ -89,7 +89,7 @@ SET FirstName='Ayşe', LastName='Demir'
 WHERE Username='cashier1';
 
 ALTER TABLE TicketPrices 
-  ADD COLUMN AgeDiscountRate DECIMAL(5,2) NOT NULL DEFAULT 0.20;
+  ADD COLUMN AgeDiscountRate DECIMAL(5,2) NOT NULL DEFAULT 0.50;
 
 
 
@@ -310,4 +310,8 @@ CREATE TABLE Invoices (
 ALTER TABLE Invoices ADD COLUMN PaymentMethod VARCHAR(20) DEFAULT 'Cash';
 ALTER TABLE Invoices ADD COLUMN InvoiceNumber VARCHAR(50) UNIQUE;
 ALTER TABLE Invoices ADD COLUMN CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- TaxRates tablosundaki değerleri güncelle
+UPDATE TaxRates SET Rate = 20.00 WHERE TaxType = 'MovieTicket';
+UPDATE TaxRates SET Rate = 10.00 WHERE TaxType IN ('Food', 'Beverage', 'Other');
 
