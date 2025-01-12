@@ -12,11 +12,10 @@ public class MovieDAO {
      * Searches movies by genre, partial name, or full name.
      *
      * @param genre       The genre to filter by (can be null or empty).
-     * @param partialName The partial name to search for (can be null or empty).
-     * @param fullName    The full name to search for (can be null or empty).
+     * @param searchName  The search name to search for (can be null or empty).
      * @return A list of movies matching the search criteria.
      */
-    public static List<Movie> searchMovies(String genre, String partialName, String fullName) {
+    public static List<Movie> searchMovies(String genre, String searchName) {
         List<Movie> movies = new ArrayList<>();
 
         String query = "SELECT * FROM Movies WHERE 1=1";
@@ -25,11 +24,9 @@ public class MovieDAO {
         if (genre != null && !genre.isEmpty()) {
             query += " AND Genre = ?";
         }
-        if (partialName != null && !partialName.isEmpty()) {
-            query += " AND Title LIKE ?";
-        }
-        if (fullName != null && !fullName.isEmpty()) {
-            query += " AND Title = ?";
+        if (searchName != null && !searchName.isEmpty()) {
+            // Hem tam eşleşme hem de kısmi eşleşme için OR kullan
+            query += " AND (Title = ? OR Title LIKE ?)";
         }
 
         try (Connection conn = DBUtil.getConnection();
@@ -40,11 +37,9 @@ public class MovieDAO {
             if (genre != null && !genre.isEmpty()) {
                 stmt.setString(paramIndex++, genre);
             }
-            if (partialName != null && !partialName.isEmpty()) {
-                stmt.setString(paramIndex++, "%" + partialName + "%");
-            }
-            if (fullName != null && !fullName.isEmpty()) {
-                stmt.setString(paramIndex++, fullName);
+            if (searchName != null && !searchName.isEmpty()) {
+                stmt.setString(paramIndex++, searchName);  // Tam eşleşme için
+                stmt.setString(paramIndex, "%" + searchName + "%");  // Kısmi eşleşme için
             }
 
             ResultSet rs = stmt.executeQuery();
