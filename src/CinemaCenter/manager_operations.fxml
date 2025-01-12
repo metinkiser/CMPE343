@@ -2,28 +2,44 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
 
-<TabPane xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="CinemaCenter.ManagerController">
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="CinemaCenter.ManagerController">
+      
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+        <Button text="Logout" onAction="#onLogoutClick" />
+    </HBox>
 
-    <Tab text="Products &amp; Stock">
-        <VBox spacing="10" fx:id="productsTabPane" />
-    </Tab>
+    <TabPane tabClosingPolicy="UNAVAILABLE">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
 
-    <Tab text="Personnel">
-        <VBox spacing="10" fx:id="personnelTabPane" />
-    </Tab>
+        <Tab text="Products &amp; Stock">
+            <VBox spacing="10" fx:id="productsTabPane" />
+        </Tab>
 
-    <Tab text="Ticket Prices &amp; Discount">
-        <VBox spacing="10" fx:id="ticketPricesTabPane" />
-    </Tab>
+        <Tab text="Personnel">
+            <VBox spacing="10" fx:id="personnelTabPane" />
+        </Tab>
 
-    <Tab text="Revenue &amp; Tax">
-        <VBox spacing="10" fx:id="revenueTabPane" />
-    </Tab>
-</TabPane>
+        <Tab text="Ticket Prices &amp; Discount">
+            <VBox spacing="10" fx:id="ticketPricesTabPane" />
+        </Tab>
+
+        <Tab text="Tax Rates">
+            <VBox spacing="10" fx:id="taxRatesTabPane" />
+        </Tab>
+
+        <Tab text="Revenue &amp; Tax">
+            <VBox spacing="10" fx:id="revenueTabPane" />
+        </Tab>
+    </TabPane>
+</VBox>
