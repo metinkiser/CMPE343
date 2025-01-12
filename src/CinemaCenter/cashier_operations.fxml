@@ -19,14 +19,16 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
+            <HBox alignment="TOP_RIGHT">
+                <Button text="Logout" onAction="#onLogoutClick" 
+                        style="-fx-background-color: #ff4444; -fx-text-fill: white;"/>
+            </HBox>
             <Label text="Search Movies" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
             <HBox spacing="10">
                 <Label text="Search by Genre:"/>
                 <ComboBox fx:id="genreComboBox" promptText="Select Genre" prefWidth="150"/>
-                <Label text="Search by Partial Name:"/>
-                <TextField fx:id="partialNameField" promptText="Enter partial name"/>
-                <Label text="Search by Full Name:"/>
-                <TextField fx:id="fullNameField" promptText="Enter full name"/>
+                <Label text="Search by Name:"/>
+                <TextField fx:id="nameSearchField" promptText="Enter movie name"/>
                 <Button text="Search" onAction="#onSearchButtonClick"/>
             </HBox>
         </VBox>
