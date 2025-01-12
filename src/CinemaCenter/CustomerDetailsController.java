@@ -54,6 +54,9 @@ public class CustomerDetailsController implements DataInitializable {
     // EKLENDİ: AgeDiscountRate'i tablodan okuyacağız
     private double ageDiscountRate = 0.20; // default fallback
 
+    private double ticketTaxRate = 0.20; // default fallback
+    private double productTaxRate = 0.10; // default fallback
+
     // -------------------------------------------------------
     // İç sınıflar
     // -------------------------------------------------------
@@ -209,6 +212,8 @@ public class CustomerDetailsController implements DataInitializable {
                 loadProductsByCategory(selectedCategory);
             }
         });
+        
+        loadTaxRates(); // Tax rate'leri yükle
     }
     
     private void loadProductCategories() {
@@ -383,27 +388,26 @@ public class CustomerDetailsController implements DataInitializable {
     
     private void updateTotals() {
         subtotal = 0;
+        tax = 0;
         
         // Bilet fiyatlarını hesapla
         for (CustomerForm form : customerForms) {
             double ticketPrice = baseTicketPrice;
             if (form.ageDiscountCheckBox.isSelected()) {
-                // DÜZENLENDİ: Burada sabit 0.8 yerine AgeDiscountRate
                 ticketPrice = baseTicketPrice * (1 - ageDiscountRate);
             }
             subtotal += ticketPrice;
+            tax += ticketPrice * ticketTaxRate; // Bilet vergisi
         }
         
         // Ürün fiyatlarını ekle
         for (Map.Entry<Product, Integer> entry : purchasedProducts.entrySet()) {
             Product product = entry.getKey();
             int quantity = entry.getValue();
-            double productPrice = product.price; 
-            subtotal += productPrice * quantity;
+            double productPrice = product.price * quantity;
+            subtotal += productPrice;
+            tax += productPrice * productTaxRate; // Ürün vergisi
         }
-        
-        // %8 vergi
-        tax = subtotal * 0.08;
         
         subtotalLabel.setText(String.format("%.2f TL", subtotal));
         taxLabel.setText(String.format("%.2f TL", tax));
@@ -558,15 +562,17 @@ public class CustomerDetailsController implements DataInitializable {
     
     private void generateAndSaveInvoice(List<CustomerDetails> customers, List<Integer> ticketIds) {
         double totalAmount = subtotal + tax;
-        double subTotal    = subtotal;
-        double taxAmount   = tax;
+        double subTotal = subtotal;
+        double taxAmount = tax;
         
+        // PDF'i byte array olarak oluştur
         byte[] pdfData = createInvoicePdf(customers, ticketIds, subTotal, taxAmount, totalAmount);
         
         long timestamp = System.currentTimeMillis();
         String invoiceFileName = "Invoice_" + timestamp + ".pdf";
         String invoiceFilePath = "C:\\invoices\\" + invoiceFileName;
         
+        // Dizini oluştur
         try {
             Path dirPath = Paths.get("C:\\invoices");
             if (!Files.exists(dirPath)) {
@@ -578,6 +584,7 @@ public class CustomerDetailsController implements DataInitializable {
             return;
         }
         
+        // Dosyaya kaydet
         try (FileOutputStream fos = new FileOutputStream(invoiceFilePath)) {
             fos.write(pdfData);
         } catch (IOException e) {
@@ -585,20 +592,21 @@ public class CustomerDetailsController implements DataInitializable {
             showAlert(Alert.AlertType.ERROR, "Error", "Could not write invoice PDF to disk.");
         }
         
+        // Veritabanına kaydet
         try (Connection conn = DBUtil.getConnection()) {
-            String sql = "INSERT INTO Invoices (CustomerID, SaleDateTime, TotalAmount, SubTotal, TaxAmount, "
-                       + "InvoicePath, InvoiceContent, PaymentMethod, InvoiceNumber) "
-                       + "VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Invoices (CustomerID, SaleDateTime, TotalAmount, SubTotal, " +
+                        "TaxAmount, InvoicePath, InvoiceContent, PaymentMethod, InvoiceNumber) " +
+                        "VALUES (?, NOW(), ?, ?, ?, ?, ?, ?, ?)";
             
             PreparedStatement stmt = conn.prepareStatement(sql);
             int firstCustomerId = findFirstCustomerId(customers, conn);
             
-            stmt.setInt   (1, firstCustomerId);
+            stmt.setInt(1, firstCustomerId);
             stmt.setDouble(2, totalAmount);
             stmt.setDouble(3, subTotal);
             stmt.setDouble(4, taxAmount);
             stmt.setString(5, invoiceFilePath);
-            stmt.setBytes (6, pdfData);
+            stmt.setBytes(6, pdfData);  // PDF içeriğini binary olarak kaydet
             stmt.setString(7, "Cash");
             stmt.setString(8, "INV-" + timestamp);
             
@@ -624,16 +632,37 @@ public class CustomerDetailsController implements DataInitializable {
             document.add(new Paragraph("Date: " + new java.util.Date().toString()).setFontSize(10));
             document.add(new Paragraph(" "));
             
-            for (CustomerDetails c : customers) {
-                String discountStr = c.hasAgeDiscount ? " (Age Discount)" : "";
-                document.add(new Paragraph("Customer: " + c.firstName + " " + c.lastName 
-                                           + ", Seat: " + c.seatNumber + discountStr));
-            }
-            document.add(new Paragraph("Tickets: " + ticketIds.toString()));
+            // Film ve salon bilgileri
+            document.add(new Paragraph("Movie Details / Film Detayları:").setBold());
+            document.add(new Paragraph(String.format("Movie / Film: %s", selectedSession.getMovie().getTitle())));
+            document.add(new Paragraph(String.format("Hall / Salon: %s", selectedSession.getHall())));
+            document.add(new Paragraph(String.format("Date / Tarih: %s", selectedSession.getDate())));
+            document.add(new Paragraph(String.format("Time / Saat: %s", selectedSession.getStartTime())));
             document.add(new Paragraph(" "));
             
+            // Bilet detayları
+            document.add(new Paragraph("Ticket Details / Bilet Detayları:").setBold());
+            for (CustomerDetails c : customers) {
+                double ticketPrice = baseTicketPrice;
+                if (c.hasAgeDiscount) {
+                    ticketPrice = baseTicketPrice * (1 - ageDiscountRate);
+                }
+                
+                document.add(new Paragraph(String.format(
+                    "Customer / Müşteri: %s %s\n" +
+                    "Seat / Koltuk: %s\n" +
+                    "Ticket Price / Bilet Fiyatı: %.2f TL%s",
+                    c.firstName, c.lastName,
+                    c.seatNumber,
+                    ticketPrice,
+                    c.hasAgeDiscount ? " (Age Discount / Yaş İndirimi)" : ""
+                )));
+                document.add(new Paragraph(" "));
+            }
+            
+            // Ürün detayları
             if (!purchasedProducts.isEmpty()) {
-                document.add(new Paragraph("Purchased Products:").setBold());
+                document.add(new Paragraph("Products / Ürünler:").setBold());
                 for (Map.Entry<Product, Integer> entry : purchasedProducts.entrySet()) {
                     Product p = entry.getKey();
                     int qty   = entry.getValue();
@@ -644,9 +673,11 @@ public class CustomerDetailsController implements DataInitializable {
                 document.add(new Paragraph(" "));
             }
             
-            document.add(new Paragraph(String.format("Subtotal: %.2f TL", subTotal)));
-            document.add(new Paragraph(String.format("Tax: %.2f TL", taxAmount)));
-            document.add(new Paragraph(String.format("Total: %.2f TL", totalAmount)));
+            // Toplam detayları
+            document.add(new Paragraph("Payment Details / Ödeme Detayları:").setBold());
+            document.add(new Paragraph(String.format("Subtotal / Ara Toplam: %.2f TL", subTotal)));
+            document.add(new Paragraph(String.format("Tax / KDV: %.2f TL", taxAmount)));
+            document.add(new Paragraph(String.format("Total / Toplam: %.2f TL", totalAmount)));
             
             document.close();
             return bos.toByteArray();
@@ -747,5 +778,45 @@ public class CustomerDetailsController implements DataInitializable {
                 setSessionAndSeats(session, seats, basePrice);
             }
         }
+    }
+
+    private void loadTaxRates() {
+        try (Connection conn = DBUtil.getConnection()) {
+            // Bilet vergisi
+            PreparedStatement stmt = conn.prepareStatement(
+                "SELECT Rate FROM TaxRates WHERE TaxType = 'MovieTicket'");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                ticketTaxRate = rs.getDouble("Rate") / 100.0;
+            }
+
+            // Ürün vergisi
+            stmt = conn.prepareStatement(
+                "SELECT Rate FROM TaxRates WHERE TaxType = 'Food'");
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                productTaxRate = rs.getDouble("Rate") / 100.0;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // default değerler kalacak
+        }
+    }
+
+    public byte[] getInvoiceFromDatabase(String invoiceNumber) {
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                 "SELECT InvoiceContent FROM Invoices WHERE InvoiceNumber = ?")) {
+            
+            stmt.setString(1, invoiceNumber);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getBytes("InvoiceContent");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
