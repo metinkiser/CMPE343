@@ -4,7 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Data Access Object class for handling user-related database operations.
+ * Provides methods for user authentication and retrieval of user information.
+ */
 public class UserDAO {
+    
+    /**
+     * Authenticates a user and returns their role.
+     * @param username The username of the user
+     * @param password The password of the user
+     * @return The role of the authenticated user, or null if authentication fails
+     */
     public static String authenticate(String username, String password) {
         String role = null;
         String query = "SELECT Role FROM Users WHERE Username = ? AND Password = ?";
@@ -22,6 +33,12 @@ public class UserDAO {
         return role;
     }
 
+    /**
+     * Retrieves the user ID for the given credentials.
+     * @param username The username of the user
+     * @param password The password of the user
+     * @return The user ID if found, -1 if not found or an error occurs
+     */
     public static int getUserId(String username, String password) {
         String query = "SELECT UserID FROM Users WHERE Username = ? AND Password = ?";
         try (Connection conn = DBUtil.getConnection();
