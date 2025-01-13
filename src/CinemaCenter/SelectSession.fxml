@@ -11,8 +11,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="CinemaCenter.SessionSelectionController">
+<BorderPane xmlns="javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="cinemaCenter.SessionSelectionController">
     <!-- Film Details -->
     <top>
         <HBox spacing="10" style="-fx-padding: 10;">
