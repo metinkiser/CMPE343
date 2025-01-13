@@ -16,6 +16,10 @@ import java.util.*;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * Controller class for the manager interface that handles product management,
+ * personnel operations, ticket pricing, tax rates and revenue tracking.
+ */
 public class ManagerController {
 
     @FXML private VBox productsTabPane;
@@ -26,6 +30,10 @@ public class ManagerController {
 
     private int managerUserId; // Manager kendi userID'si
 
+    /**
+     * Sets the user ID for the currently logged-in manager.
+     * @param id The user ID to set
+     */
     public void setManagerUserId(int id) {
         this.managerUserId = id;
     }
@@ -56,18 +64,21 @@ public class ManagerController {
     private Label totalTaxLabel;
     private Button refreshRevenueButton;
 
+    /**
+     * Initializes all tabs in the manager interface.
+     */
     @FXML
     public void initialize() {
         setupProductsTab();
         setupPersonnelTab();
         setupTicketPricesTab();
-        setupTaxRatesTab();    // YENİ
+        setupTaxRatesTab();
         setupRevenueTab();
     }
 
-    // ------------------------------------------------------------
-    // (1) Products & Stock Tab
-    // ------------------------------------------------------------
+    /**
+     * Sets up the products management tab with table and controls.
+     */
     private void setupProductsTab() {
         productsTable = new TableView<>();
         TableColumn<ProductRow, Integer> colId = new TableColumn<>("ID");
@@ -100,6 +111,9 @@ public class ManagerController {
         loadProducts();
     }
 
+    /**
+     * Loads product data from database into the products table.
+     */
     private void loadProducts() {
         try (Connection conn = DBUtil.getConnection();
              Statement st = conn.createStatement();
@@ -695,7 +709,9 @@ public class ManagerController {
             || role.equalsIgnoreCase("Admin");
     }
 
-    // POJO
+    /**
+     * Data model class for product information.
+     */
     public static class ProductRow {
         private int productId;
         private String name;
@@ -710,6 +726,9 @@ public class ManagerController {
         public int getStockQuantity() { return stockQuantity; }
     }
 
+    /**
+     * Data model class for user information.
+     */
     public static class UserRow {
         private int userId;
         private String firstName;
@@ -729,6 +748,9 @@ public class ManagerController {
         public String getRole() { return role; }
     }
 
+    /**
+     * Data model class for ticket price information.
+     */
     public static class TicketPriceRow {
         private int priceID;
         private int movieID;
@@ -754,7 +776,9 @@ public class ManagerController {
         public double getAgeDiscountRate() { return ageDiscountRate; }
     }
 
-    // YENİ: TaxRateRow
+    /**
+     * Data model class for tax rate information.
+     */
     public static class TaxRateRow {
         private String taxType;
         private double rate;
@@ -767,6 +791,9 @@ public class ManagerController {
         public double getRate() { return rate; }
     }
 
+    /**
+     * Handles the logout action and returns to login screen.
+     */
     @FXML
     private void onLogoutClick() {
         try {
