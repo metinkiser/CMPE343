@@ -1,4 +1,4 @@
-package CinemaCenter;
+package cinemaCenter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
