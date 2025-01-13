@@ -15,6 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import java.io.IOException;
 
+/**
+ * Controller class for the seat selection screen in the cinema booking system.
+ * Manages the seat layout, selection process, and booking cart functionality.
+ */
 public class SeatSelectionController {
     @FXML private Label movieInfoLabel;
     @FXML private Label sessionInfoLabel;
@@ -28,12 +32,19 @@ public class SeatSelectionController {
     private double basePrice;
     private ObservableList<String> cartItems = FXCollections.observableArrayList();
     
+    /**
+     * Initializes the controller by setting up the cart list view and total price display.
+     */
     @FXML
     public void initialize() {
         cartListView.setItems(cartItems);
         updateTotalPrice();
     }
     
+    /**
+     * Sets the selected movie session and initializes the seat selection interface.
+     * @param session The selected movie session containing screening details
+     */
     public void setSelectedSession(Session session) {
         this.selectedSession = session;
         loadSessionInfo();
@@ -42,6 +53,9 @@ public class SeatSelectionController {
         loadOccupiedSeats();
     }
     
+    /**
+     * Loads and displays the movie and session information on the screen.
+     */
     private void loadSessionInfo() {
         Movie movie = selectedSession.getMovie();
         movieInfoLabel.setText(movie.getTitle());
@@ -51,6 +65,9 @@ public class SeatSelectionController {
             selectedSession.getStartTime()));
     }
     
+    /**
+     * Retrieves the base ticket price for the selected movie from the database.
+     */
     private void loadBasePrice() {
         String query = "SELECT BasePrice FROM TicketPrices WHERE MovieID = ?";
         try (Connection conn = DBUtil.getConnection();
@@ -65,6 +82,9 @@ public class SeatSelectionController {
         }
     }
     
+    /**
+     * Creates and displays the interactive seat layout grid based on hall configuration.
+     */
     private void createSeatLayout() {
         String query = "SELECT * FROM Seats WHERE HallID = ? ORDER BY SeatRow, SeatColumn";
         try (Connection conn = DBUtil.getConnection();
@@ -91,6 +111,9 @@ public class SeatSelectionController {
         }
     }
     
+    /**
+     * Loads and marks already occupied seats from the database.
+     */
     private void loadOccupiedSeats() {
         String query = "SELECT s.SeatNumber FROM Tickets t " +
                       "JOIN Seats s ON t.SeatID = s.SeatID " +
@@ -115,6 +138,11 @@ public class SeatSelectionController {
         }
     }
     
+    /**
+     * Handles seat selection/deselection when a seat button is clicked.
+     * @param seatNumber The identifier of the selected seat
+     * @param seatButton The button representing the selected seat
+     */
     private void onSeatClick(String seatNumber, Button seatButton) {
         if (selectedSeats.contains(seatNumber)) {
             selectedSeats.remove(seatNumber);
@@ -128,11 +156,17 @@ public class SeatSelectionController {
         updateTotalPrice();
     }
     
+    /**
+     * Updates the total price display based on selected seats.
+     */
     private void updateTotalPrice() {
         double total = selectedSeats.size() * basePrice;
         totalPriceLabel.setText(String.format("%.2f TL", total));
     }
     
+    /**
+     * Handles the back button click event, returning to the session selection screen.
+     */
     @FXML
     private void onBackButtonClick() {
         try {
@@ -152,6 +186,10 @@ public class SeatSelectionController {
         }
     }
     
+    /**
+     * Handles the next button click event, proceeding to customer details screen.
+     * Validates seat selection before proceeding.
+     */
     @FXML
     private void onNextButtonClick() {
         if (selectedSeats.isEmpty()) {
@@ -181,6 +219,11 @@ public class SeatSelectionController {
         }
     }
     
+    /**
+     * Displays an alert dialog with the specified title and content.
+     * @param title The title of the alert dialog
+     * @param content The message content to display
+     */
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
