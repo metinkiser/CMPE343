@@ -26,6 +26,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Controller class for managing customer details, ticket purchases and product sales.
+ * Handles customer information forms, product selection, cart management and invoice generation.
+ */
 public class CustomerDetailsController implements DataInitializable {
 
     @FXML private Label movieInfoLabel;
@@ -61,6 +65,10 @@ public class CustomerDetailsController implements DataInitializable {
     // İç sınıflar
     // -------------------------------------------------------
     
+    /**
+     * Inner class representing a customer form panel.
+     * Contains input fields for customer details and seat information.
+     */
     class CustomerForm extends GridPane {
         private TextField firstNameField;
         private TextField lastNameField;
@@ -152,6 +160,10 @@ public class CustomerDetailsController implements DataInitializable {
         }
     }
     
+    /**
+     * Inner class representing customer details data structure.
+     * Stores customer information including name, age and seat details.
+     */
     class CustomerDetails {
         String firstName;
         String lastName;
@@ -169,6 +181,10 @@ public class CustomerDetailsController implements DataInitializable {
         }
     }
     
+    /**
+     * Inner class representing a product in the system.
+     * Contains product information including price and stock details.
+     */
     class Product {
         int id;
         String name;
@@ -194,6 +210,10 @@ public class CustomerDetailsController implements DataInitializable {
     // initialize
     // -------------------------------------------------------
     
+    /**
+     * Initializes the controller and sets up UI components.
+     * Loads product categories and configures event listeners.
+     */
     public void initialize() {
         cartListView.setItems(cartItems);
         
@@ -249,6 +269,14 @@ public class CustomerDetailsController implements DataInitializable {
         }
     }
     
+    /**
+     * Sets the selected session, seats and base ticket price.
+     * Initializes customer forms for each selected seat.
+     *
+     * @param session The selected movie session
+     * @param seats Set of selected seat numbers
+     * @param basePrice Base ticket price
+     */
     public void setSessionAndSeats(Session session, Set<String> seats, double basePrice) {
         this.selectedSession = session;
         this.selectedSeats = seats;
@@ -312,6 +340,10 @@ public class CustomerDetailsController implements DataInitializable {
         }
     }
     
+    /**
+     * Handles adding selected products to the shopping cart.
+     * Performs stock validation and updates cart display.
+     */
     @FXML
     private void onAddToCartClick() {
         Product selected = productsListView.getSelectionModel().getSelectedItem();
@@ -454,6 +486,12 @@ public class CustomerDetailsController implements DataInitializable {
     // Veritabanı kaydetme + Fatura oluşturma
     // -------------------------------------------------------
     
+    /**
+     * Saves purchase information to database and generates invoice.
+     * Creates records for tickets, customers and product sales.
+     *
+     * @param customers List of customer details to be saved
+     */
     private void saveToDatabase(List<CustomerDetails> customers) {
         Connection conn = null;
         try {
@@ -560,6 +598,12 @@ public class CustomerDetailsController implements DataInitializable {
         return -1; 
     }
     
+    /**
+     * Generates PDF invoice and saves it to both file system and database.
+     *
+     * @param customers List of customers included in purchase
+     * @param ticketIds List of generated ticket IDs
+     */
     private void generateAndSaveInvoice(List<CustomerDetails> customers, List<Integer> ticketIds) {
         double totalAmount = subtotal + tax;
         double subTotal = subtotal;
@@ -618,11 +662,21 @@ public class CustomerDetailsController implements DataInitializable {
         }
     }
     
+    /**
+     * Creates PDF document containing invoice details.
+     *
+     * @param customers List of customers
+     * @param ticketIds List of ticket IDs
+     * @param subTotal Purchase subtotal
+     * @param taxAmount Total tax amount
+     * @param totalAmount Final total amount
+     * @return PDF document as byte array
+     */
     private byte[] createInvoicePdf(List<CustomerDetails> customers, 
-                                    List<Integer> ticketIds,
-                                    double subTotal, 
-                                    double taxAmount, 
-                                    double totalAmount) {
+                                  List<Integer> ticketIds,
+                                  double subTotal, 
+                                  double taxAmount, 
+                                  double totalAmount) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             PdfWriter writer   = new PdfWriter(bos);
             PdfDocument pdf    = new PdfDocument(writer);
