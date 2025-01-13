@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" 
+<AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CinemaCenter.SessionAddUpdateController"
-            prefWidth="300" prefHeight="250">
-
+            fx:controller="cinemaCenter.SessionAddUpdateController"
+            prefWidth="300" prefHeight="320">
+    
     <children>
-        <VBox spacing="15" alignment="CENTER" style="-fx-padding: 15;">
+        <GridPane hgap="10" vgap="10" layoutX="20" layoutY="20">
             <Label fx:id="lblTitle"
                    text="Add/Update Session"
-                   style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+                   style="-fx-font-size: 16px; -fx-font-weight: bold;"
+                   GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
 
-            <HBox spacing="10">
-                <Label text="Hall:"/>
-                <ComboBox fx:id="hallComboBox" prefWidth="100"/>
-            </HBox>
+            <Label text="Hall:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="hallComboBox" prefWidth="120" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-            <HBox spacing="10">
-                <Label text="Date:"/>
-                <DatePicker fx:id="datePicker" />
-            </HBox>
+            <Label text="Date:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="datePicker" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-            <HBox spacing="10">
-                <Label text="Start:"/>
-                <ComboBox fx:id="startTimeComboBox" prefWidth="100"/>
-            </HBox>
+            <Label text="Start:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="startTimeComboBox" prefWidth="120" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-            <HBox spacing="10">
-                <Label text="End:"/>
-                <ComboBox fx:id="endTimeComboBox" prefWidth="100"/>
-            </HBox>
+            <Label text="Duration:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="durationComboBox" prefWidth="120" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
             <Button fx:id="btnSave"
                     text="Save"
                     onAction="#onSaveButtonClick"
-                    style="-fx-font-weight: bold;"/>
-        </VBox>
+                    style="-fx-font-weight: bold;"
+                    GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+        </GridPane>
     </children>
 </AnchorPane>
