@@ -18,6 +18,10 @@ import java.sql.*;
 import java.net.URL;
 import java.io.File;
 
+/**
+ * Controller class for the cashier interface of the Cinema Center application.
+ * Handles movie searching, selection, and navigation to session selection.
+ */
 public class CashierController {
 
     @FXML
@@ -43,12 +47,13 @@ public class CashierController {
 
     private Movie selectedMovie;
 
+    /**
+     * Initializes the controller, sets up the genre combo box and configures the movies list view.
+     */
     @FXML
     public void initialize() {
-        // DÜZENLENDİ: Genre ComboBox'ı veritabanından dolduralım + en başa "All categories"
         loadGenresDynamically();
-
-        // Configure ListView
+        
         moviesListView.setCellFactory(param -> new ListCell<>() {
             private final ImageView imageView = new ImageView();
             private final Text title = new Text();
@@ -78,10 +83,13 @@ public class CashierController {
         });
     }
 
-    // EKLENDİ: Veritabanından DISTINCT Genre al, listeye ekle + "All categories" en başta.
+    /**
+     * Loads distinct movie genres from the database and populates the genre combo box.
+     * Adds "All categories" as the first option.
+     */
     private void loadGenresDynamically() {
         List<String> genres = new ArrayList<>();
-        genres.add("All categories"); // en başa ekle
+        genres.add("All categories");
 
         try (Connection conn = DBUtil.getConnection();
              Statement st = conn.createStatement();
@@ -97,20 +105,20 @@ public class CashierController {
         genreComboBox.getItems().addAll(genres);
     }
 
+    /**
+     * Handles the search button click event.
+     * Searches for movies based on selected genre and name criteria.
+     */
     @FXML
     public void onSearchButtonClick() {
-        // Get search criteria
         String genre = genreComboBox.getValue();
         String searchName = nameSearchField.getText().trim();
 
-        // "All categories" seçiliyse genre=null yapalım
         if ("All categories".equalsIgnoreCase(genre)) {
             genre = null;
         }
 
         moviesListView.getItems().clear();
-
-        // searchMovies metodunu güncellenen parametrelerle çağır
         List<Movie> results = MovieDAO.searchMovies(genre, searchName);
 
         if (results.isEmpty()) {
@@ -121,6 +129,11 @@ public class CashierController {
         }
     }
 
+    /**
+     * Displays an error alert with the specified title and content.
+     * @param title The title of the alert dialog
+     * @param content The message to display in the alert
+     */
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -129,6 +142,10 @@ public class CashierController {
         alert.showAndWait();
     }
 
+    /**
+     * Handles the confirm button click event.
+     * Opens the session selection screen for the selected movie.
+     */
     @FXML
     public void onConfirmButtonClick() {
         selectedMovie = moviesListView.getSelectionModel().getSelectedItem();
@@ -185,10 +202,18 @@ public class CashierController {
         }
     }
 
+    /**
+     * Returns the currently selected movie.
+     * @return The selected Movie object
+     */
     public Movie getSelectedMovie() {
         return selectedMovie;
     }
 
+    /**
+     * Handles the logout button click event.
+     * Returns to the login screen.
+     */
     @FXML
     private void onLogoutClick() {
         try {
