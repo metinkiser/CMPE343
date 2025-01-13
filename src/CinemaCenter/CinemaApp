@@ -5,7 +5,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main application class for the Cinema Center application.
+ * Initializes and launches the JavaFX application with the login screen.
+ */
 public class CinemaApp extends Application {
+    
+    /**
+     * Starts the JavaFX application by loading and displaying the login screen.
+     * @param primaryStage The primary stage for the application
+     * @throws Exception If there is an error loading the FXML file
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
@@ -15,6 +25,10 @@ public class CinemaApp extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main method that launches the JavaFX application.
+     * @param args Command line arguments (not used)
+     */
     public static void main(String[] args) {
         launch(args);
     }
